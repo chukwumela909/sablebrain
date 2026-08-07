@@ -1,179 +1,266 @@
-import Image from "next/image";
 import styles from "./page.module.css";
+import ScrollReveal from "./scroll-reveal";
 
-const metrics = [
-  { value: "42%", label: "faster queue clearing" },
-  { value: "6.3h", label: "saved per operator weekly" },
-  { value: "99.9%", label: "workflow uptime target" },
+const CONTACT_EMAIL = "hello@sablebrain.com";
+
+const services = [
+  {
+    title: "Workflow automation",
+    body: "The repetitive chains of copy, paste, check, and forward — turned into systems that run themselves and flag only what needs a human.",
+  },
+  {
+    title: "AI integrations",
+    body: "AI wired into the tools you already use: your CRM, inbox, spreadsheets, and internal dashboards. No platform migration required.",
+  },
+  {
+    title: "Document & data processing",
+    body: "Invoices, contracts, forms, and reports — extracted, structured, and filed without anyone retyping a single field.",
+  },
+  {
+    title: "AI assistants & agents",
+    body: "Assistants that triage requests, draft responses, and keep records current, trained on how your business actually works.",
+  },
+];
+
+// Placeholder engagements — replace with real case studies as they land.
+// Cards are designed to graduate into /work/[slug] pages (see docs/information-architecture.md).
+const caseStudies = [
+  {
+    client: "E-commerce retailer",
+    tag: "Customer operations",
+    title: "Order-status inquiries answered without the support queue",
+    result: "Support inbox volume cut by more than half",
+  },
+  {
+    client: "Professional services firm",
+    tag: "Document processing",
+    title: "Client intake documents processed the moment they arrive",
+    result: "Days of manual data entry reduced to minutes",
+  },
+  {
+    client: "Logistics company",
+    tag: "Workflow automation",
+    title: "Dispatch updates that write themselves across three systems",
+    result: "One source of truth, zero duplicate typing",
+  },
 ];
 
 const steps = [
   {
-    title: "Map the bottleneck",
-    body: "We trace the work that slows your team down, from intake to resolution.",
+    title: "Map the boring work",
+    body: "A short working session where we trace the repetitive tasks eating your team's week and pick the highest-impact one.",
   },
   {
-    title: "Plug into your stack",
-    body: "Cadence connects to the CRMs, dashboards, booking tools, and inboxes already in use.",
+    title: "Build the workflow",
+    body: "We design and build the automation inside your existing tools, and test it against real work until it holds up.",
   },
   {
-    title: "Ship the working system",
-    body: "Your team gets a practical AI workflow that routes, drafts, updates, and reports.",
+    title: "Run and improve",
+    body: "It ships, your team gets time back, and we keep tuning it as your business changes.",
   },
 ];
 
+function Mark({ size = 28 }: { size?: number }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 32 32"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
+      <rect width="32" height="32" rx="8" fill="#1C1917" />
+      <path
+        d="M10 20.5c1.2 1.6 3 2.5 5.5 2.5 3.3 0 5.5-1.7 5.5-4.2 0-5.2-10.4-2.6-10.4-7.6 0-2.2 2-3.7 4.9-3.7 2.2 0 3.9.8 5 2.2"
+        stroke="#FBBF24"
+        strokeWidth="2.4"
+        strokeLinecap="round"
+      />
+      <circle cx="23.5" cy="8.5" r="2" fill="#FBBF24" />
+    </svg>
+  );
+}
+
 export default function Home() {
   return (
-    <main className={styles.page}>
-      <header className={styles.nav} aria-label="Primary navigation">
-        <a className={styles.brand} href="#top" aria-label="Cadence home">
-          <Image
-            src="/cadence-lockup.svg"
-            alt="Cadence"
-            width={156}
-            height={48}
-            priority
-          />
+    <>
+      <ScrollReveal />
+
+      <header className={styles.nav}>
+        <a className={styles.brand} href="#top" aria-label="Sable Brain home">
+          <Mark />
+          <span>Sable Brain</span>
         </a>
-        <nav>
-          <a href="#systems">Systems</a>
-          <a href="#process">Process</a>
-          <a href="#demo">Demo</a>
+        <nav className={styles.navLinks} aria-label="Primary navigation">
+          <a href="#work">Work</a>
+          <a href="#services">Services</a>
+          <a href="#about">About</a>
         </nav>
+        <a href="#contact" className={styles.navCta}>
+          Talk to us
+        </a>
       </header>
 
-      <section className={styles.hero} id="top">
-        <div className={styles.heroCopy}>
-          <p className={styles.eyebrow}>AI systems for smarter operations</p>
-          <h1>Make your existing business software work harder.</h1>
-          <p className={styles.lede}>
-            Cadence builds custom AI workflows and automations inside the tools
-            your team already uses, so bottlenecks clear without a platform
-            rebuild.
-          </p>
-          <div className={styles.actions}>
-            <a href="#demo" className={styles.primaryCta}>
-              Book a demo
+      <main className={styles.page} id="top">
+        {/* 1. Hero */}
+        <section className={styles.hero}>
+          <div data-reveal>
+            <p className={styles.eyebrow}>AI operations agency</p>
+            <h1>
+              AI workflows that automate <em>the boring work.</em>
+            </h1>
+            <p className={styles.lede}>
+              Sable Brain builds AI systems that take repetitive tasks off your
+              team&apos;s plate — inside the tools you already use — so your
+              people can do the work that actually needs them.
+            </p>
+            <div className={styles.heroActions}>
+              <a href="#contact" className={styles.btnPrimary}>
+                Talk to us
+              </a>
+              <a href="#work" className={styles.btnSecondary}>
+                See our work
+              </a>
+            </div>
+          </div>
+        </section>
+
+        {/* 2. The problem */}
+        <section className={styles.problem}>
+          <div className={styles.sectionInner} data-reveal>
+            <p className={styles.eyebrow}>The problem</p>
+            <h2 className={styles.problemStatement}>
+              Every week, your best people spend hours copying data, chasing
+              updates, and re-typing what a system already knows.
+              <span> That isn&apos;t work. That&apos;s friction.</span>
+            </h2>
+          </div>
+        </section>
+
+        {/* 3. What we build */}
+        <section className={styles.section} id="services">
+          <div className={styles.sectionIntro} data-reveal>
+            <p className={styles.eyebrow}>What we build</p>
+            <h2>Practical AI, where the work already happens.</h2>
+          </div>
+          <div className={styles.serviceGrid}>
+            {services.map((service, i) => (
+              <article
+                key={service.title}
+                className={styles.serviceCard}
+                data-reveal
+                style={{ transitionDelay: `${i * 60}ms` }}
+              >
+                <span className={styles.cardIndex}>
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <h3>{service.title}</h3>
+                <p>{service.body}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        {/* 4. Proof */}
+        <section className={styles.section} id="work">
+          <div className={styles.sectionIntro} data-reveal>
+            <p className={styles.eyebrow}>Proof</p>
+            <h2>Boring work we&apos;ve already made disappear.</h2>
+          </div>
+          <div className={styles.workGrid}>
+            {caseStudies.map((cs, i) => (
+              <article
+                key={cs.title}
+                className={styles.workCard}
+                data-reveal
+                style={{ transitionDelay: `${i * 60}ms` }}
+              >
+                <div className={styles.workMeta}>
+                  <span>{cs.client}</span>
+                  <span className={styles.workTag}>{cs.tag}</span>
+                </div>
+                <h3>{cs.title}</h3>
+                <p className={styles.workResult}>{cs.result}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        {/* 5. How it works */}
+        <section className={styles.section}>
+          <div className={styles.sectionIntro} data-reveal>
+            <p className={styles.eyebrow}>How it works</p>
+            <h2>Three steps. No rip-and-replace.</h2>
+          </div>
+          <ol className={styles.steps}>
+            {steps.map((step, i) => (
+              <li
+                key={step.title}
+                data-reveal
+                style={{ transitionDelay: `${i * 60}ms` }}
+              >
+                <span className={styles.stepNumber}>{i + 1}</span>
+                <h3>{step.title}</h3>
+                <p>{step.body}</p>
+              </li>
+            ))}
+          </ol>
+        </section>
+
+        {/* 6. Who we are */}
+        <section className={styles.section} id="about">
+          <div className={styles.aboutGrid}>
+            <div data-reveal>
+              <p className={styles.eyebrow}>Who we are</p>
+              <h2>Operators first, AI builders second.</h2>
+              <p className={styles.aboutBody}>
+                We&apos;re a small team that has run the workflows we now
+                automate. We measure our work in hours handed back to your team
+                — not in demos that never ship.
+              </p>
+            </div>
+            <div className={styles.partnersStrip} data-reveal>
+              <p className={styles.eyebrow}>Partners</p>
+              <p>
+                We collaborate with agencies, consultancies, and software teams
+                who want AI capability behind their own client work. If that
+                sounds like you, reach us at the address in the footer.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* 7. Contact */}
+        <section className={styles.contact} id="contact">
+          <div data-reveal>
+            <p className={styles.eyebrow}>Get started</p>
+            <h2>Tell us about your most boring task.</h2>
+            <p className={styles.contactBody}>
+              Bring one repetitive workflow — the one everyone complains about.
+              We&apos;ll show you exactly how it disappears.
+            </p>
+            <a href={`mailto:${CONTACT_EMAIL}`} className={styles.btnPrimary}>
+              Talk to us
             </a>
-            <a href="#process" className={styles.secondaryCta}>
-              See the process
-            </a>
           </div>
-        </div>
+        </section>
+      </main>
 
-        <div className={styles.systemPanel} aria-label="Workflow preview">
-          <div className={styles.panelTop}>
-            <span>workflow health</span>
-            <strong>Live</strong>
+      <footer className={styles.footer}>
+        <div className={styles.footerInner}>
+          <div className={styles.footerBrand}>
+            <Mark size={22} />
+            <span>Sable Brain</span>
           </div>
-          <div className={styles.rhythmBars} aria-hidden="true">
-            <span />
-            <span />
-            <span />
-            <span className={styles.peak} />
-            <span />
-            <span />
-            <span />
-          </div>
-          <div className={styles.panelGrid}>
-            <div>
-              <span>crm sync</span>
-              <strong>Connected</strong>
-            </div>
-            <div>
-              <span>inbox triage</span>
-              <strong>Automated</strong>
-            </div>
-            <div>
-              <span>lead response</span>
-              <strong>2m avg</strong>
-            </div>
-            <div>
-              <span>handoff notes</span>
-              <strong>Drafted</strong>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className={styles.metrics} aria-label="Outcome metrics">
-        {metrics.map((metric) => (
-          <div key={metric.label}>
-            <strong>{metric.value}</strong>
-            <span>{metric.label}</span>
-          </div>
-        ))}
-      </section>
-
-      <section className={styles.section} id="systems">
-        <div className={styles.sectionIntro}>
-          <p className={styles.eyebrow}>What Cadence builds</p>
-          <h2>Practical AI where the work already happens.</h2>
-        </div>
-        <div className={styles.featureGrid}>
-          <article>
-            <span>01</span>
-            <h3>AI customer operations</h3>
-            <p>
-              Route requests, draft replies, update records, and surface the
-              next best action before a customer waits.
-            </p>
-          </article>
-          <article>
-            <span>02</span>
-            <h3>Workflow automations</h3>
-            <p>
-              Replace manual handoffs with systems that move data between your
-              website, CRM, booking tools, and internal dashboards.
-            </p>
-          </article>
-          <article>
-            <span>03</span>
-            <h3>Decision dashboards</h3>
-            <p>
-              Turn scattered operational signals into a single view that shows
-              what is stuck, what moved, and what needs attention.
-            </p>
-          </article>
-        </div>
-      </section>
-
-      <section className={styles.process} id="process">
-        <div className={styles.sectionIntro}>
-          <p className={styles.eyebrow}>How it works</p>
-          <h2>Plug in, do not rip out.</h2>
-        </div>
-        <div className={styles.timeline}>
-          {steps.map((step) => (
-            <article key={step.title}>
-              <h3>{step.title}</h3>
-              <p>{step.body}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className={styles.demo} id="demo">
-        <Image
-          src="/cadence-mark.svg"
-          alt=""
-          width={72}
-          height={72}
-          aria-hidden="true"
-        />
-        <div>
-          <p className={styles.eyebrow}>One page demo</p>
-          <h2>Ready to see the bottleneck clear?</h2>
-          <p>
-            Bring one workflow that is slow, repetitive, or customer-facing.
-            Cadence will map the system and show where AI can create measurable
-            operational lift.
+          <a href={`mailto:${CONTACT_EMAIL}`} className={styles.footerEmail}>
+            {CONTACT_EMAIL}
+          </a>
+          <p className={styles.footerLegal}>
+            © {new Date().getFullYear()} Sable Brain. All rights reserved.
           </p>
         </div>
-        <a href="mailto:hello@cadence.ai" className={styles.primaryCta}>
-          Start the sprint
-        </a>
-      </section>
-    </main>
+      </footer>
+    </>
   );
 }

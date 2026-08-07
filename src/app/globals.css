@@ -1,15 +1,36 @@
 :root {
-  --midnight: #16212e;
-  --steel: #5b8bb0;
-  --steel-dark: #3e6688;
-  --steel-light: #9dbcd6;
-  --slate: #3d4148;
-  --ice: #f2f0ea;
-  --paper: #fbfaf7;
-  --muted: #6a6e73;
-  --line: rgba(22, 33, 46, 0.12);
-  --font-sans: var(--font-inter), -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
-  --font-mono: var(--font-jetbrains), "SF Mono", Consolas, monospace;
+  /* Sable Brain design tokens — see design-system/sable-brain/MASTER.md */
+  --color-background: #0c0a09;
+  --color-surface: #1c1917;
+  --color-foreground: #fafaf9;
+  --color-muted: #292524;
+  --color-muted-foreground: #a8a29e;
+  --color-border: #292524;
+  --color-border-strong: #44403c;
+  --color-primary: #fbbf24;
+  --color-on-primary: #1c1917;
+  --color-destructive: #ef4444;
+  --color-ring: #fbbf24;
+
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1.5rem;
+  --space-lg: 2rem;
+  --space-xl: 3rem;
+  --space-2xl: 4rem;
+  --space-3xl: 6rem;
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.3);
+  --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.4);
+
+  --font-sans: var(--font-inter), -apple-system, BlinkMacSystemFont,
+    "Helvetica Neue", sans-serif;
+
+  color-scheme: dark;
 }
 
 html {
@@ -25,11 +46,11 @@ body {
 
 body {
   min-height: 100%;
-  display: flex;
-  flex-direction: column;
-  color: var(--midnight);
-  background: var(--paper);
+  color: var(--color-foreground);
+  background: var(--color-background);
   font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -55,4 +76,31 @@ select {
 img,
 svg {
   display: block;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-ring);
+  outline-offset: 2px;
+}
+
+::selection {
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+}
+
+/* Scroll reveal — elements opt in with data-reveal; ScrollReveal (client)
+   flips them to .is-visible as they enter the viewport. */
+@media (prefers-reduced-motion: no-preference) {
+  [data-reveal] {
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+    transition:
+      opacity 450ms cubic-bezier(0.16, 1, 0.3, 1),
+      transform 450ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  [data-reveal].is-visible {
+    opacity: 1;
+    transform: none;
+  }
 }

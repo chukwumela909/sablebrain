@@ -1,8 +1,5 @@
-<svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cadence favicon">
-  <title>Cadence favicon</title>
-  <rect x="0" y="0" width="32" height="32" rx="7" fill="#16212E"/>
-  <rect x="6"  y="19" width="3.4" height="7"  rx="1.7" fill="#9DBCD6"/>
-  <rect x="11" y="14" width="3.4" height="12" rx="1.7" fill="#9DBCD6"/>
-  <rect x="16" y="8"  width="3.4" height="18" rx="1.7" fill="#5B8BB0"/>
-  <rect x="21" y="14" width="3.4" height="12" rx="1.7" fill="#9DBCD6"/>
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="32" height="32" rx="8" fill="#1C1917"/>
+  <path d="M10 20.5c1.2 1.6 3 2.5 5.5 2.5 3.3 0 5.5-1.7 5.5-4.2 0-5.2-10.4-2.6-10.4-7.6 0-2.2 2-3.7 4.9-3.7 2.2 0 3.9.8 5 2.2" stroke="#FBBF24" stroke-width="2.4" stroke-linecap="round"/>
+  <circle cx="23.5" cy="8.5" r="2" fill="#FBBF24"/>
 </svg>
