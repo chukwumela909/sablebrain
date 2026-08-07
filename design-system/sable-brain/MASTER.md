@@ -19,32 +19,29 @@
 
 | Role | Hex | CSS Variable |
 |------|-----|--------------|
-| Primary | `#FBBF24` | `--color-primary` |
-| On Primary | `#1C1917` | `--color-on-primary` |
-| Secondary | `#A8A29E` | `--color-secondary` |
-| Accent/CTA | `#FBBF24` | `--color-accent` |
-| Background | `#0C0A09` | `--color-background` |
-| Surface/Card | `#1C1917` | `--color-surface` |
-| Foreground | `#FAFAF9` | `--color-foreground` |
-| Muted | `#292524` | `--color-muted` |
-| Muted Foreground | `#A8A29E` | `--color-muted-foreground` |
-| Border | `#292524` | `--color-border` |
+| Primary | `#00E5FF` | `--color-primary` |
+| On Primary | `#081120` | `--color-on-primary` |
+| Brand Navy | `#1E3A5F` | `--color-navy` |
+| Accent/CTA | `#00E5FF` | `--color-accent` |
+| Background | `#081120` | `--color-background` |
+| Surface/Card | `#12233C` | `--color-surface` |
+| Foreground | `#F4F8FC` | `--color-foreground` |
+| Muted | `#1E3A5F` | `--color-muted` |
+| Muted Foreground | `#93A9C4` | `--color-muted-foreground` |
+| Border | `#1E3A5F` | `--color-border` |
+| Border Strong | `#33517C` | `--color-border-strong` |
 | Destructive | `#EF4444` | `--color-destructive` |
-| Ring | `#FBBF24` | `--color-ring` |
+| Ring | `#00E5FF` | `--color-ring` |
 
-**Color Notes:** Sable (near-black, warm stone) + gold accent — dark-mode-primary, derived from the database's "Luxury/Premium Brand" palette (#1C1917 + gold) inverted for dark backgrounds to match the Modern Dark style. Gold `#FBBF24` on `#0C0A09` ≈ 11:1 contrast; dark text on gold buttons ≈ 9:1. Never use pure `#000000` (per style: OLED smear).
+**Color Notes:** Client brand palette — Navy `#1E3A5F` (secure, trust, stability) + Electric Blue `#00E5FF` (innovation, confidence, creativity). Dark-mode-primary: background is a deepened navy (`#081120`), navy itself serves as surface/muted/border tones, electric blue is reserved for the CTA, accents, and focus rings. `#00E5FF` on `#081120` ≈ 12:1 contrast; navy text on electric-blue buttons ≈ 11:1. Never use pure `#000000` (per style: OLED smear).
 
 ### Typography
 
-- **Heading Font:** Inter
-- **Body Font:** Inter
-- **Mood:** dark, cinematic, technical, precision, clean, premium, developer, professional, high-end utility
-- **Google Fonts:** [Inter + Inter](https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap)
-
-**CSS Import:**
-```css
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-```
+- **Display Font (h1/h2 only):** TAN Nimbus — local file, single weight, loaded via `next/font/local` (`src/app/fonts/TAN-NIMBUS.woff2`), exposed as `--font-display`
+- **Body/UI Font:** Inter (via `next/font/google`, `--font-inter`)
+- **Mood:** bold retro display headlines over clean technical body copy
+- **Rules:** TAN Nimbus is decorative — headlines and short statements only, sized smaller than a sans equivalent (it runs wide), looser line-height (~1.25–1.3). Never use it for body text, card titles (h3), nav, buttons, or anything under ~1.25rem. Card titles and everything else stay Inter.
+- **Licensing:** TAN Nimbus is a commercial font (TAN Type) — confirm the license covers web embedding before launch.
 
 ### Spacing Variables
 
@@ -78,8 +75,8 @@
 ```css
 /* Primary Button (CTA — "Talk to us") */
 .btn-primary {
-  background: #FBBF24;
-  color: #1C1917;
+  background: #00E5FF;
+  color: #081120;
   padding: 12px 24px;
   border-radius: 8px;
   font-weight: 600;
@@ -95,8 +92,8 @@
 /* Secondary Button */
 .btn-secondary {
   background: transparent;
-  color: #FAFAF9;
-  border: 1px solid #44403C;
+  color: #F4F8FC;
+  border: 1px solid #33517C;
   padding: 12px 24px;
   border-radius: 8px;
   font-weight: 600;
@@ -105,8 +102,8 @@
 }
 
 .btn-secondary:hover {
-  border-color: #FBBF24;
-  color: #FBBF24;
+  border-color: #00E5FF;
+  color: #00E5FF;
 }
 ```
 
@@ -114,8 +111,8 @@
 
 ```css
 .card {
-  background: #1C1917;
-  border: 1px solid #292524;
+  background: #12233C;
+  border: 1px solid #1E3A5F;
   border-radius: 12px;
   padding: 24px;
   transition: all 200ms ease;
@@ -123,7 +120,7 @@
 }
 
 .card:hover {
-  border-color: #44403C;
+  border-color: #33517C;
   transform: translateY(-2px);
 }
 ```
@@ -132,19 +129,19 @@
 
 ```css
 .input {
-  background: #1C1917;
-  color: #FAFAF9;
+  background: #12233C;
+  color: #F4F8FC;
   padding: 12px 16px;
-  border: 1px solid #44403C;
+  border: 1px solid #33517C;
   border-radius: 8px;
   font-size: 16px;
   transition: border-color 200ms ease;
 }
 
 .input:focus {
-  border-color: #FBBF24;
+  border-color: #00E5FF;
   outline: none;
-  box-shadow: 0 0 0 3px #FBBF2420;
+  box-shadow: 0 0 0 3px #00E5FF20;
 }
 ```
 
@@ -157,8 +154,8 @@
 }
 
 .modal {
-  background: #1C1917;
-  border: 1px solid #292524;
+  background: #12233C;
+  border: 1px solid #1E3A5F;
   border-radius: 16px;
   padding: 32px;
   box-shadow: var(--shadow-xl);

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import styles from "./page.module.css";
 import ScrollReveal from "./scroll-reveal";
 
@@ -60,28 +61,6 @@ const steps = [
   },
 ];
 
-function Mark({ size = 28 }: { size?: number }) {
-  return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 32 32"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      aria-hidden="true"
-    >
-      <rect width="32" height="32" rx="8" fill="#1C1917" />
-      <path
-        d="M10 20.5c1.2 1.6 3 2.5 5.5 2.5 3.3 0 5.5-1.7 5.5-4.2 0-5.2-10.4-2.6-10.4-7.6 0-2.2 2-3.7 4.9-3.7 2.2 0 3.9.8 5 2.2"
-        stroke="#FBBF24"
-        strokeWidth="2.4"
-        strokeLinecap="round"
-      />
-      <circle cx="23.5" cy="8.5" r="2" fill="#FBBF24" />
-    </svg>
-  );
-}
-
 export default function Home() {
   return (
     <>
@@ -89,8 +68,13 @@ export default function Home() {
 
       <header className={styles.nav}>
         <a className={styles.brand} href="#top" aria-label="Sable Brain home">
-          <Mark />
-          <span>Sable Brain</span>
+          <Image
+            src="/sablebrain-wordmark.png"
+            alt="Sable Brain"
+            width={147}
+            height={27}
+            priority
+          />
         </a>
         <nav className={styles.navLinks} aria-label="Primary navigation">
           <a href="#work">Work</a>
@@ -250,8 +234,12 @@ export default function Home() {
       <footer className={styles.footer}>
         <div className={styles.footerInner}>
           <div className={styles.footerBrand}>
-            <Mark size={22} />
-            <span>Sable Brain</span>
+            <Image
+              src="/sablebrain-wordmark.png"
+              alt="Sable Brain"
+              width={114}
+              height={21}
+            />
           </div>
           <a href={`mailto:${CONTACT_EMAIL}`} className={styles.footerEmail}>
             {CONTACT_EMAIL}

@@ -1,16 +1,19 @@
 :root {
-  /* Sable Brain design tokens — see design-system/sable-brain/MASTER.md */
-  --color-background: #0c0a09;
-  --color-surface: #1c1917;
-  --color-foreground: #fafaf9;
-  --color-muted: #292524;
-  --color-muted-foreground: #a8a29e;
-  --color-border: #292524;
-  --color-border-strong: #44403c;
-  --color-primary: #fbbf24;
-  --color-on-primary: #1c1917;
+  /* Sable Brain design tokens — see design-system/sable-brain/MASTER.md
+     Brand: Navy #1E3A5F (secure, trust, stability) +
+     Electric Blue #00E5FF (innovation, confidence, creativity) */
+  --color-background: #081120;
+  --color-surface: #12233c;
+  --color-foreground: #f4f8fc;
+  --color-muted: #1e3a5f;
+  --color-muted-foreground: #93a9c4;
+  --color-border: #1e3a5f;
+  --color-border-strong: #33517c;
+  --color-primary: #00e5ff;
+  --color-on-primary: #081120;
+  --color-navy: #1e3a5f;
   --color-destructive: #ef4444;
-  --color-ring: #fbbf24;
+  --color-ring: #00e5ff;
 
   --space-xs: 0.25rem;
   --space-sm: 0.5rem;
