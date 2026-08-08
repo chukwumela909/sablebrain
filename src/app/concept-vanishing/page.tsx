@@ -1,7 +1,21 @@
+import type { Metadata } from "next";
 import Image from "next/image";
-import HeroBot from "./hero-bot/hero-bot";
-import styles from "./page.module.css";
-import ScrollReveal from "./scroll-reveal";
+import styles from "./vanishing.module.css";
+import ScrollReveal from "../scroll-reveal";
+import VanishingList from "./vanishing-list";
+
+/**
+ * Concept prototype: "The Vanishing List".
+ *
+ * Same IA and positioning as `/` (docs/information-architecture.md), built on
+ * one idea — the page performs subtraction instead of describing it. Every
+ * section removes something. Not linked from the live site.
+ */
+
+export const metadata: Metadata = {
+  title: "Sable Brain — concept: vanishing list",
+  robots: { index: false, follow: false },
+};
 
 const CONTACT_EMAIL = "hello@sablebrain.com";
 
@@ -9,18 +23,22 @@ const services = [
   {
     title: "Workflow automation",
     body: "The repetitive chains of copy, paste, check, and forward — turned into systems that run themselves and flag only what needs a human.",
+    removes: ["Re-typing the same update in three places", "Chasing status by hand"],
   },
   {
     title: "AI integrations",
     body: "AI wired into the tools you already use: your CRM, inbox, spreadsheets, and internal dashboards. No platform migration required.",
+    removes: ["Swivel-chairing between tabs", "Exports that become someone's morning"],
   },
   {
     title: "Document & data processing",
     body: "Invoices, contracts, forms, and reports — extracted, structured, and filed without anyone retyping a single field.",
+    removes: ["Reading the PDF to fill in the form", "Filing it in the right folder"],
   },
   {
     title: "AI assistants & agents",
     body: "Assistants that triage requests, draft responses, and keep records current, trained on how your business actually works.",
+    removes: ["First-pass inbox triage", "Answering the same question again"],
   },
 ];
 
@@ -31,18 +49,21 @@ const caseStudies = [
     client: "E-commerce retailer",
     tag: "Customer operations",
     title: "Order-status inquiries answered without the support queue",
+    removed: "“Where is my order?”, answered by a person",
     result: "Support inbox volume cut by more than half",
   },
   {
     client: "Professional services firm",
     tag: "Document processing",
     title: "Client intake documents processed the moment they arrive",
+    removed: "Retyping intake forms into the case system",
     result: "Days of manual data entry reduced to minutes",
   },
   {
     client: "Logistics company",
     tag: "Workflow automation",
     title: "Dispatch updates that write themselves across three systems",
+    removed: "The same delivery date, typed three times",
     result: "One source of truth, zero duplicate typing",
   },
 ];
@@ -62,7 +83,7 @@ const steps = [
   },
 ];
 
-export default function Home() {
+export default function VanishingConcept() {
   return (
     <>
       <ScrollReveal />
@@ -109,12 +130,9 @@ export default function Home() {
               </a>
             </div>
           </div>
-          <div
-            className={styles.heroVisual}
-            data-reveal
-            style={{ transitionDelay: "120ms" }}
-          >
-            <HeroBot />
+
+          <div className={styles.heroPanel}>
+            <VanishingList />
           </div>
         </section>
 
@@ -123,9 +141,14 @@ export default function Home() {
           <div className={styles.sectionInner} data-reveal>
             <p className={styles.eyebrow}>The problem</p>
             <h2 className={styles.problemStatement}>
-              Every week, your best people spend hours copying data, chasing
-              updates, and re-typing what a system already knows.
-              <span> That isn&apos;t work. That&apos;s friction.</span>
+              Every week, your best people spend hours{" "}
+              <span className={styles.strike}>copying data</span>,{" "}
+              <span className={styles.strike}>chasing updates</span>, and{" "}
+              <span className={styles.strike}>
+                re-typing what a system already knows
+              </span>
+              .<span className={styles.emphasis}> That isn&apos;t work.</span>
+              <span className={styles.emphasis}> That&apos;s friction.</span>
             </h2>
           </div>
         </section>
@@ -149,6 +172,11 @@ export default function Home() {
                 </span>
                 <h3>{service.title}</h3>
                 <p>{service.body}</p>
+                <ul className={styles.removes}>
+                  {service.removes.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
               </article>
             ))}
           </div>
@@ -173,6 +201,7 @@ export default function Home() {
                   <span className={styles.workTag}>{cs.tag}</span>
                 </div>
                 <h3>{cs.title}</h3>
+                <p className={styles.workRemoved}>{cs.removed}</p>
                 <p className={styles.workResult}>{cs.result}</p>
               </article>
             ))}
@@ -232,6 +261,10 @@ export default function Home() {
               Bring one repetitive workflow — the one everyone complains about.
               We&apos;ll show you exactly how it disappears.
             </p>
+            <div className={styles.ghostRow} aria-hidden="true">
+              <span className={styles.marker} />
+              <span>Your most boring task</span>
+            </div>
             <a href={`mailto:${CONTACT_EMAIL}`} className={styles.btnPrimary}>
               Talk to us
             </a>

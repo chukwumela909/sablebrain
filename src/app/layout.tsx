@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import localFont from "next/font/local";
+import CookieConsent from "./cookie-consent";
 import "./globals.css";
 
 const inter = Inter({
@@ -9,8 +10,11 @@ const inter = Inter({
   display: "swap",
 });
 
-const tanNimbus = localFont({
-  src: "./fonts/TAN-NIMBUS.woff2",
+// Coolvetica Rg — the wordmark's own face. LICENSE GATE: the bundled free
+// EULA is desktop-only; the file is git-ignored and this must not deploy
+// until a Typodermic web-embedding license is purchased.
+const coolvetica = localFont({
+  src: "./fonts/CoolveticaRg.otf",
   variable: "--font-display",
   display: "swap",
 });
@@ -31,12 +35,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${tanNimbus.variable}`}>
+    <html lang="en" className={`${inter.variable} ${coolvetica.variable}`}>
       <body>
         <noscript>
           <style>{`[data-reveal] { opacity: 1 !important; transform: none !important; }`}</style>
         </noscript>
         {children}
+        <CookieConsent />
       </body>
     </html>
   );

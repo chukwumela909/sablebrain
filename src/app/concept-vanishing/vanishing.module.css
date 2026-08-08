@@ -1,3 +1,7 @@
+/* Concept: "The Vanishing List".
+   Shares the Sable Brain design tokens; the concept-specific work is the
+   hero panel, the strike-through motif, and the "removes" lists. */
+
 /* ---------- Nav ---------- */
 
 .nav {
@@ -18,8 +22,6 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  font-weight: 600;
-  letter-spacing: -0.01em;
 }
 
 .navLinks {
@@ -90,59 +92,40 @@
 .aboutGrid h2,
 .contact h2 {
   font-family: var(--font-display), var(--font-sans);
-  font-size: clamp(1.625rem, 3.4vw, 2.375rem);
-  line-height: 1.15;
-  letter-spacing: 0;
+  font-size: clamp(1.375rem, 2.8vw, 1.875rem);
+  line-height: 1.3;
+  letter-spacing: 0.01em;
   font-weight: 400;
 }
 
 /* ---------- Hero ---------- */
 
 .hero {
-  padding: clamp(3.5rem, 10vh, 7.5rem) 0 var(--space-3xl);
   display: grid;
-  gap: clamp(2rem, 4vw, 3.5rem);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--space-2xl);
   align-items: center;
+  padding: clamp(3rem, 8vh, 5.5rem) 0 var(--space-3xl);
 }
 
-.heroCopy {
-  max-width: 780px;
-}
-
-/* The bot column only exists where there is room for it; below this the
-   hero is a single column and <HeroBot /> renders nothing. */
-.heroVisual {
-  display: none;
-}
-
-@media (min-width: 1024px) {
-  .hero {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 360px);
-  }
-
-  .heroVisual {
-    display: block;
-  }
-}
-
-.hero h1 {
+.heroCopy h1 {
   font-family: var(--font-display), var(--font-sans);
-  font-size: clamp(2.375rem, 5vw, 3.5rem);
-  line-height: 1.08;
-  letter-spacing: 0;
+  font-size: clamp(1.75rem, 3.6vw, 2.625rem);
+  line-height: 1.25;
+  letter-spacing: 0.01em;
   font-weight: 400;
 }
 
-.hero h1 em {
+.heroCopy h1 em {
   font-style: normal;
   color: var(--color-primary);
 }
 
 .lede {
   color: var(--color-muted-foreground);
-  font-size: clamp(1.0625rem, 2vw, 1.25rem);
+  font-size: clamp(1rem, 1.6vw, 1.125rem);
   line-height: 1.6;
-  max-width: 560px;
+  max-width: 34rem;
   margin-top: var(--space-md);
 }
 
@@ -151,6 +134,158 @@
   flex-wrap: wrap;
   gap: var(--space-sm);
   margin-top: var(--space-xl);
+}
+
+/* ---------- Hero panel: the vanishing list ---------- */
+
+.heroPanel {
+  min-width: 0;
+}
+
+.panel {
+  position: relative;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-md) var(--space-md) var(--space-lg);
+  box-shadow: var(--shadow-lg);
+}
+
+.panelHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  padding-bottom: var(--space-sm);
+  margin-bottom: var(--space-sm);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.panelTitle {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-muted-foreground);
+}
+
+.panelCount {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-muted-foreground);
+}
+
+.panelCountNum {
+  font-size: 1rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-foreground);
+}
+
+.list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 16px minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 10px;
+  padding: 7px 0;
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+.marker {
+  align-self: center;
+  width: 7px;
+  height: 7px;
+  margin-left: 4px;
+  border: 1px solid var(--color-border-strong);
+  border-radius: 2px;
+}
+
+.rowTask {
+  /* Shrink to the text so the strike stops at the last character rather than
+     running to the end of the grid column. */
+  justify-self: start;
+  /* Animated strike: a gradient "line" grown from 0 to full width. Survives
+     wrapping better than a positioned pseudo-element. */
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-position: 0 0.7em;
+  background-size: 0% 1px;
+}
+
+.rowCadence {
+  font-size: 0.6875rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-muted-foreground);
+  white-space: nowrap;
+}
+
+.struck {
+  opacity: 0.22;
+}
+
+.struck .rowTask {
+  background-size: 100% 1px;
+}
+
+/* The one row that stays. */
+.survivor {
+  margin-top: var(--space-sm);
+  padding: 10px 12px 10px 8px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  color: var(--color-muted-foreground);
+  font-weight: 500;
+}
+
+.survivor .check {
+  align-self: center;
+  opacity: 0.35;
+}
+
+.alive {
+  border-color: var(--color-primary);
+  background: rgba(0, 229, 255, 0.07);
+  color: var(--color-foreground);
+}
+
+.alive .check,
+.alive .rowCadence {
+  color: var(--color-primary);
+  opacity: 1;
+}
+
+.replay {
+  position: absolute;
+  right: var(--space-md);
+  bottom: -2.25rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: 0;
+  padding: 6px 2px;
+  color: var(--color-muted-foreground);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 200ms ease;
+}
+
+.replay:hover {
+  color: var(--color-primary);
 }
 
 /* ---------- Buttons ---------- */
@@ -196,7 +331,7 @@
 }
 
 .sectionInner {
-  max-width: 820px;
+  max-width: 880px;
 }
 
 .problemStatement {
@@ -207,19 +342,35 @@
   color: var(--color-muted-foreground);
 }
 
-.problemStatement span {
+.strike {
+  background-image: linear-gradient(
+    var(--color-primary),
+    var(--color-primary)
+  );
+  background-repeat: no-repeat;
+  background-position: 0 0.65em;
+  background-size: 0% 2px;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+.emphasis {
   color: var(--color-foreground);
 }
 
 /* ---------- Services ---------- */
 
 .serviceGrid {
+  /* 220px keeps all four services on one row at desktop — a 3 + 1 orphan
+     undercuts the "four things we remove" read. */
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: var(--space-md);
 }
 
 .serviceCard {
+  display: flex;
+  flex-direction: column;
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
@@ -257,6 +408,25 @@
   color: var(--color-muted-foreground);
   font-size: 0.9375rem;
   line-height: 1.6;
+}
+
+/* What each service deletes — the motif, carried into the cards. */
+.removes {
+  list-style: none;
+  margin-top: auto;
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--color-border);
+}
+
+.removes li {
+  color: var(--color-muted-foreground);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  text-decoration: line-through;
+  text-decoration-color: var(--color-primary);
+  text-decoration-thickness: 1px;
+  opacity: 0.75;
+  padding: 2px 0;
 }
 
 /* ---------- Work / proof ---------- */
@@ -308,6 +478,16 @@
   line-height: 1.35;
 }
 
+.workRemoved {
+  color: var(--color-muted-foreground);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  text-decoration: line-through;
+  text-decoration-color: var(--color-primary);
+  text-decoration-thickness: 1px;
+  opacity: 0.75;
+}
+
 .workResult {
   margin-top: auto;
   padding-top: var(--space-md);
@@ -324,7 +504,6 @@
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: var(--space-lg);
   list-style: none;
-  counter-reset: step;
 }
 
 .stepNumber {
@@ -386,7 +565,22 @@
   color: var(--color-muted-foreground);
   font-size: 1.0625rem;
   line-height: 1.6;
-  margin: var(--space-md) 0 var(--space-xl);
+  margin: var(--space-md) 0 var(--space-lg);
+}
+
+/* Callback to the hero list: one empty row, waiting for their task. */
+.ghostRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: fit-content;
+  margin: 0 auto var(--space-xl);
+  padding: 10px 16px;
+  border: 1px dashed var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  color: var(--color-muted-foreground);
+  font-size: 0.875rem;
 }
 
 /* ---------- Footer ---------- */
@@ -409,8 +603,6 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  font-weight: 600;
-  font-size: 0.9375rem;
 }
 
 .footerEmail {
@@ -429,7 +621,65 @@
   font-size: 0.875rem;
 }
 
+/* ---------- Motion ---------- */
+
+@media (prefers-reduced-motion: no-preference) {
+  .row {
+    transition:
+      opacity 260ms cubic-bezier(0.16, 1, 0.3, 1),
+      border-color 300ms ease,
+      background-color 300ms ease,
+      color 300ms ease;
+  }
+
+  .rowTask {
+    transition: background-size 190ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .survivor {
+    transition:
+      border-color 400ms ease,
+      background-color 400ms ease,
+      color 400ms ease;
+  }
+
+  .strike {
+    transition: background-size 500ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* ScrollReveal flips [data-reveal] to .is-visible; the strikes draw then. */
+  .sectionInner:global(.is-visible) .strike {
+    background-size: 100% 2px;
+  }
+
+  .sectionInner:global(.is-visible) .strike:nth-of-type(2) {
+    transition-delay: 160ms;
+  }
+
+  .sectionInner:global(.is-visible) .strike:nth-of-type(3) {
+    transition-delay: 320ms;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .strike {
+    background-size: 100% 2px;
+  }
+}
+
 /* ---------- Responsive ---------- */
+
+@media (max-width: 900px) {
+  .hero {
+    grid-template-columns: 1fr;
+    gap: var(--space-2xl);
+    padding-top: var(--space-2xl);
+  }
+
+  .replay {
+    bottom: -2rem;
+  }
+}
 
 @media (max-width: 768px) {
   .navLinks {
@@ -449,6 +699,14 @@
   .problem,
   .contact {
     padding: var(--space-2xl) 0;
+  }
+
+  .rowCadence {
+    display: none;
+  }
+
+  .row {
+    grid-template-columns: 16px minmax(0, 1fr);
   }
 
   .footerLegal {

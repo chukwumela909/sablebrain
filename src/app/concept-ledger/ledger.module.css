@@ -1,0 +1,540 @@
+/* Concept: "The Ledger".
+   Hairline rules instead of cards, tabular figures, almost no fills. The
+   restraint is the point — it reads as a record, not a pitch. */
+
+/* ---------- Nav ---------- */
+
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+  padding: 14px clamp(1.25rem, 5vw, 4rem);
+  background: rgba(8, 17, 32, 0.82);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.navLinks {
+  display: flex;
+  gap: var(--space-md);
+  margin-left: auto;
+}
+
+.navLinks a {
+  color: var(--color-muted-foreground);
+  font-size: 0.9375rem;
+  padding: 8px 4px;
+  transition: color 200ms ease;
+}
+
+.navLinks a:hover {
+  color: var(--color-foreground);
+}
+
+.navCta {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  padding: 10px 18px;
+  border-radius: var(--radius-sm);
+  transition: all 200ms ease;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.navCta:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+/* ---------- Running balance rail ---------- */
+
+.rail {
+  display: none;
+}
+
+@media (min-width: 1320px) {
+  .rail {
+    position: fixed;
+    top: 50%;
+    right: 2.5rem;
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+    transform: translateY(-50%);
+    padding-right: var(--space-sm);
+    border-right: 2px solid var(--color-primary);
+    text-align: right;
+  }
+
+  .railLabel,
+  .railUnit {
+    font-size: 0.6875rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-muted-foreground);
+  }
+
+  .railFigure {
+    font-size: 2.25rem;
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-primary);
+  }
+
+  .railUnit {
+    max-width: 9rem;
+    text-transform: none;
+    letter-spacing: 0.02em;
+    line-height: 1.4;
+  }
+}
+
+/* ---------- Page shell ---------- */
+
+.page {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 0 clamp(1.25rem, 5vw, 4rem);
+}
+
+.eyebrow {
+  color: var(--color-primary);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  margin-bottom: var(--space-md);
+}
+
+.section {
+  padding: var(--space-3xl) 0;
+  border-top: 1px solid var(--color-border);
+}
+
+.sectionIntro {
+  max-width: 640px;
+  margin-bottom: var(--space-xl);
+}
+
+.sectionIntro h2,
+.aboutGrid h2,
+.contact h2 {
+  font-family: var(--font-display), var(--font-sans);
+  font-size: clamp(1.375rem, 2.8vw, 1.875rem);
+  line-height: 1.3;
+  letter-spacing: 0.01em;
+  font-weight: 400;
+}
+
+/* ---------- Hero ---------- */
+
+.hero {
+  padding: clamp(4rem, 12vh, 8rem) 0 0;
+}
+
+.hero h1 {
+  font-family: var(--font-display), var(--font-sans);
+  font-size: clamp(1.75rem, 4.5vw, 3rem);
+  line-height: 1.25;
+  letter-spacing: 0.01em;
+  font-weight: 400;
+  max-width: 20ch;
+}
+
+.hero h1 em {
+  font-style: normal;
+  color: var(--color-primary);
+}
+
+.lede {
+  color: var(--color-muted-foreground);
+  font-size: clamp(1.0625rem, 2vw, 1.1875rem);
+  line-height: 1.6;
+  max-width: 34rem;
+  margin-top: var(--space-md);
+}
+
+.heroActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  margin: var(--space-xl) 0 var(--space-3xl);
+}
+
+/* Column headers — the grammar every section below repeats. */
+.masthead {
+  display: grid;
+  grid-template-columns: 2.5rem minmax(0, 1fr) minmax(0, 1.15fr) 6.5rem;
+  gap: var(--space-md);
+  padding-bottom: var(--space-sm);
+  border-bottom: 1px solid var(--color-border-strong);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-muted-foreground);
+}
+
+.masthead > span:first-child {
+  grid-column: 1 / 3;
+}
+
+.mastheadFigure {
+  text-align: right;
+}
+
+/* ---------- Ledger entries ---------- */
+
+.entries {
+  list-style: none;
+  border-top: 1px solid var(--color-border);
+}
+
+.entry {
+  display: grid;
+  grid-template-columns: 2.5rem minmax(0, 1fr) minmax(0, 1.15fr) 6.5rem;
+  gap: var(--space-md);
+  align-items: baseline;
+  padding: var(--space-md) 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.entryIndex {
+  font-size: 0.75rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.06em;
+  color: var(--color-border-strong);
+}
+
+.entryTitle {
+  font-size: 1.0625rem;
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+}
+
+.entryClient {
+  display: block;
+  margin-top: 6px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-muted-foreground);
+}
+
+.entryDetail {
+  color: var(--color-muted-foreground);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+}
+
+.figure {
+  text-align: right;
+  font-size: 1.25rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+
+.debit {
+  color: var(--color-destructive);
+}
+
+.credit {
+  color: var(--color-primary);
+}
+
+.account {
+  text-align: right;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-muted-foreground);
+}
+
+.subtotal {
+  border-bottom: 2px solid var(--color-border-strong);
+}
+
+.subtotal .entryTitle,
+.subtotal .figure {
+  font-size: 1.125rem;
+}
+
+.subtotal .entryTitle {
+  font-weight: 700;
+}
+
+.creditRow {
+  transition: background-color 200ms ease;
+}
+
+.creditRow:hover {
+  background: rgba(0, 229, 255, 0.04);
+}
+
+.statement {
+  max-width: 46rem;
+  margin-top: var(--space-2xl);
+  font-size: clamp(1.25rem, 2.6vw, 1.625rem);
+  line-height: 1.4;
+  letter-spacing: -0.02em;
+  font-weight: 600;
+  color: var(--color-muted-foreground);
+}
+
+.statement span {
+  color: var(--color-foreground);
+}
+
+.footnote {
+  margin-top: var(--space-md);
+  color: var(--color-muted-foreground);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+
+/* ---------- Buttons ---------- */
+
+.btnPrimary {
+  display: inline-block;
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  padding: 14px 28px;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  transition: all 200ms ease;
+  cursor: pointer;
+}
+
+.btnPrimary:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.btnSecondary {
+  display: inline-block;
+  background: transparent;
+  color: var(--color-foreground);
+  border: 1px solid var(--color-border-strong);
+  padding: 13px 28px;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  transition: all 200ms ease;
+  cursor: pointer;
+}
+
+.btnSecondary:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+/* ---------- About ---------- */
+
+.aboutGrid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: var(--space-2xl);
+  align-items: start;
+}
+
+.aboutBody {
+  color: var(--color-muted-foreground);
+  line-height: 1.7;
+  margin-top: var(--space-md);
+  max-width: 480px;
+}
+
+.partnersStrip {
+  border-left: 2px solid var(--color-border-strong);
+  padding-left: var(--space-md);
+}
+
+.partnersStrip p:last-child {
+  color: var(--color-muted-foreground);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+}
+
+/* ---------- Contact / closing balance ---------- */
+
+.contact {
+  padding: var(--space-3xl) 0;
+  border-top: 1px solid var(--color-border);
+  text-align: center;
+}
+
+.balance {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-xs);
+  padding-bottom: var(--space-2xl);
+  margin-bottom: var(--space-2xl);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.balanceLabel {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-muted-foreground);
+}
+
+.balanceFigure {
+  font-size: clamp(3rem, 11vw, 5.5rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-primary);
+}
+
+.balanceUnit {
+  color: var(--color-muted-foreground);
+  font-size: 0.9375rem;
+}
+
+.contact > div:last-child {
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+.contactBody {
+  color: var(--color-muted-foreground);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  margin: var(--space-md) 0 var(--space-xl);
+}
+
+/* ---------- Footer ---------- */
+
+.footer {
+  border-top: 1px solid var(--color-border);
+  padding: var(--space-xl) clamp(1.25rem, 5vw, 4rem);
+}
+
+.footerInner {
+  max-width: 1040px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+}
+
+.footerBrand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.footerEmail {
+  color: var(--color-muted-foreground);
+  font-size: 0.9375rem;
+  transition: color 200ms ease;
+}
+
+.footerEmail:hover {
+  color: var(--color-primary);
+}
+
+.footerLegal {
+  margin-left: auto;
+  color: var(--color-muted-foreground);
+  font-size: 0.875rem;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 860px) {
+  /* Two rows per entry: index + title + figure, then the detail beneath.
+     Rows are assigned explicitly — auto-placement pushes the figure onto a
+     row of its own once the detail spans columns. */
+  .masthead,
+  .entry {
+    grid-template-columns: 2.25rem minmax(0, 1fr) auto;
+    gap: var(--space-xs) var(--space-sm);
+  }
+
+  .masthead .mastheadDetail {
+    display: none;
+  }
+
+  .entryIndex {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .entryTitle {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .figure,
+  .account {
+    grid-column: 3;
+    grid-row: 1;
+    justify-self: end;
+    align-self: start;
+  }
+
+  .entryDetail {
+    grid-column: 2 / 4;
+    grid-row: 2;
+    margin-top: var(--space-xs);
+  }
+
+  .aboutGrid {
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
+  }
+}
+
+@media (max-width: 768px) {
+  .navLinks {
+    display: none;
+  }
+
+  .navCta {
+    margin-left: auto;
+  }
+
+  .section,
+  .contact {
+    padding: var(--space-2xl) 0;
+  }
+
+  .figure {
+    font-size: 1.125rem;
+  }
+
+  .footerLegal {
+    margin-left: 0;
+    width: 100%;
+  }
+}

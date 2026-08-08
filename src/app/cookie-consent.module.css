@@ -1,0 +1,240 @@
+.wrapper {
+  position: fixed;
+  z-index: 100;
+  left: var(--space-md);
+  right: var(--space-md);
+  bottom: var(--space-md);
+  display: flex;
+  justify-content: flex-start;
+  pointer-events: none;
+}
+
+.card {
+  pointer-events: auto;
+  width: 100%;
+  max-width: 460px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xl);
+  padding: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  animation: rise 320ms ease both;
+}
+
+/* Focused programmatically for screen readers; it isn't a keyboard tab stop. */
+.card:focus {
+  outline: none;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    animation: none;
+  }
+}
+
+.head {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-md);
+}
+
+.icon {
+  flex-shrink: 0;
+  color: var(--color-primary);
+}
+
+.copy {
+  font-size: 1rem;
+  line-height: 1.45;
+}
+
+.link {
+  display: inline-block;
+  margin-top: var(--space-sm);
+  color: var(--color-primary);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.link:hover {
+  opacity: 0.85;
+}
+
+.actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-sm);
+}
+
+.reject,
+.accept {
+  padding: 13px 20px;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 200ms ease;
+  border: 1px solid transparent;
+}
+
+.reject {
+  background: transparent;
+  color: var(--color-primary);
+  border-color: var(--color-border-strong);
+}
+
+.reject:hover {
+  border-color: var(--color-primary);
+}
+
+.accept {
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+}
+
+.accept:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.settingsToggle {
+  align-self: center;
+  background: none;
+  border: none;
+  color: var(--color-primary);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+  padding: var(--space-xs);
+}
+
+.settingsToggle:hover {
+  opacity: 0.85;
+}
+
+.reject:focus-visible,
+.accept:focus-visible,
+.settingsToggle:focus-visible,
+.link:focus-visible,
+.switch:focus-visible {
+  outline: 2px solid var(--color-ring);
+  outline-offset: 2px;
+}
+
+/* ---------- Preferences panel ---------- */
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  border-top: 1px solid var(--color-border);
+  padding-top: var(--space-md);
+}
+
+.option {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-md);
+}
+
+.optionText strong {
+  display: block;
+  font-size: 0.9375rem;
+  font-weight: 600;
+}
+
+.optionText span {
+  display: block;
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  color: var(--color-muted-foreground);
+}
+
+.switch {
+  flex-shrink: 0;
+  position: relative;
+  width: 40px;
+  height: 22px;
+  margin-top: 2px;
+  border: 1px solid var(--color-border-strong);
+  border-radius: 999px;
+  background: var(--color-muted);
+  cursor: pointer;
+  transition: all 200ms ease;
+}
+
+.switch::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--color-muted-foreground);
+  transition: all 200ms ease;
+}
+
+.switchOn {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.switchOn::after {
+  left: 21px;
+  background: var(--color-on-primary);
+}
+
+.switch:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.save {
+  margin-top: var(--space-xs);
+  padding: 12px 20px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border-strong);
+  background: transparent;
+  color: var(--color-foreground);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 200ms ease;
+}
+
+.save:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+@media (max-width: 560px) {
+  .wrapper {
+    left: var(--space-sm);
+    right: var(--space-sm);
+    bottom: var(--space-sm);
+  }
+
+  .card {
+    max-width: none;
+  }
+
+  .actions {
+    grid-template-columns: 1fr;
+  }
+}

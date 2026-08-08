@@ -37,11 +37,20 @@
 
 ### Typography
 
-- **Display Font (h1/h2 only):** TAN Nimbus — local file, single weight, loaded via `next/font/local` (`src/app/fonts/TAN-NIMBUS.woff2`), exposed as `--font-display`
-- **Body/UI Font:** Inter (via `next/font/google`, `--font-inter`)
-- **Mood:** bold retro display headlines over clean technical body copy
-- **Rules:** TAN Nimbus is decorative — headlines and short statements only, sized smaller than a sans equivalent (it runs wide), looser line-height (~1.25–1.3). Never use it for body text, card titles (h3), nav, buttons, or anything under ~1.25rem. Card titles and everything else stay Inter.
-- **Licensing:** TAN Nimbus is a commercial font (TAN Type) — confirm the license covers web embedding before launch.
+- **Display Font (h1/h2 only):** Coolvetica Rg — the wordmark's own face, loaded via `next/font/local` (`src/app/fonts/CoolveticaRg.otf`), exposed as `--font-display`. Single 400-weight cut; tight native tracking (no added letter-spacing), line-height 1.08–1.15. The heavy companion cut `CoolveticaHvComp.otf` is available if a bolder display voice is ever needed.
+- **Body/UI Font:** Inter (via `next/font/google`, `--font-inter`) — body copy, card titles (h3), nav, buttons, everything under ~1.5rem.
+- **Mood:** the logotype extended into headlines — one continuous brand voice from wordmark to h2.
+- **⚠ LICENSE GATE (unresolved):** the Coolvetica files on disk are Typodermic's free **desktop-only** EULA — web embedding is expressly disallowed. Files are git-ignored (`src/app/fonts/Coolvetica*`); **do not commit them or deploy the site until a web-embedding license is purchased from Typodermic** (typodermicfonts.com). TAN Nimbus is retired from the site (file remains only as a `/type-lab` specimen and in git history).
+
+### Brand Marks
+
+| Asset | File | Usage |
+|-------|------|-------|
+| Wordmark (white) | `public/sablebrain-wordmark.png` | Sticky nav (~27px tall), footer (~21px) |
+| Icon mark | `src/app/icon.svg` | Browser tab favicon — navy tile + offset squares |
+| Apple touch icon | `src/app/apple-icon.png` | iOS home screen, 180×180 |
+
+The icon mark is the two offset squares that dot the "i" in the wordmark: back square `#4B8B94`, front square `#00E5FF`, offset by ~19% of the mark's width. Source assets: `007.png` / `008.png` in the client design pack (identical geometry, colors swapped — the site uses the 008 arrangement with cyan in front, matching the wordmark).
 
 ### Spacing Variables
 
