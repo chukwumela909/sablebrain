@@ -99,13 +99,59 @@
 /* ---------- Hero ---------- */
 
 .hero {
+  position: relative;
   padding: clamp(3.5rem, 10vh, 7.5rem) 0 var(--space-3xl);
   display: grid;
   gap: clamp(2rem, 4vw, 3.5rem);
   align-items: center;
 }
 
+/* Tangle → flow, dialled in at /visual-lab: band placement, blend lighten,
+   62% opacity. Breaks out of .page's max-width to sit full-bleed.
+   The band is the bots' ground plane, so its height is tuned so the mask's
+   opaque edge lands just above their feet — not through their chests. */
+.heroField {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  z-index: 0;
+  width: 100vw;
+  height: 42%;
+  transform: translateX(-50%);
+  opacity: 0.62;
+  mix-blend-mode: lighten;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 30%);
+  mask-image: linear-gradient(to bottom, transparent, #000 30%);
+}
+
+.heroField canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Keeps the headline off the busiest part of the band. */
+.heroScrim {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  z-index: 0;
+  width: 100vw;
+  height: 42%;
+  transform: translateX(-50%);
+  pointer-events: none;
+  background: linear-gradient(
+    100deg,
+    var(--color-background) 6%,
+    rgba(8, 17, 32, 0.62) 42%,
+    rgba(8, 17, 32, 0) 78%
+  );
+}
+
 .heroCopy {
+  position: relative;
+  z-index: 1;
   max-width: 780px;
 }
 
@@ -115,19 +161,92 @@
   display: none;
 }
 
+/* 1024–1279: the scene appears, stacked under the copy — there isn't enough
+   width for two bots beside a readable headline yet. Stacked, though, a
+   full-measure canvas pushes the bots most of a screen below the fold, so the
+   scene is held to a size the copy can sit above without the hero doubling in
+   height. */
 @media (min-width: 1024px) {
-  .hero {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 360px);
-  }
-
   .heroVisual {
     display: block;
+    width: min(100%, 560px);
+    margin-inline: auto;
   }
+
+  .heroDialogue {
+    display: none;
+  }
+}
+
+/* ≥1280: the hero used to break out of .page's shell on BOTH sides, which put
+   the h1 ~190px left of every heading below it — the page appeared to jump
+   right on the first scroll. Now the copy keeps the page's left spine and only
+   the scene reaches out, into the right gutter the 1120px shell was wasting.
+   Because the bleed is added to the visual track alone, the copy column stays
+   ~505px at every width and only the bots get bigger on wide screens. */
+@media (min-width: 1280px) {
+  .hero {
+    /* Content edge of .page sits at 50vw + 496px; this is the distance from
+       there to 2rem short of the viewport, capped so the scene doesn't drift
+       into its own postcode on an ultrawide. */
+    --bleed: min(240px, max(0px, calc(50vw - 528px)));
+    width: calc(100% + var(--bleed));
+    grid-template-columns: minmax(0, 1fr) minmax(0, calc(430px + var(--bleed)));
+    /* Slack around the row rather than under it: the old fixed padding left a
+       ~215px dead band between the buttons and the next section. */
+    min-height: min(80vh, 800px);
+    align-content: center;
+    padding-top: clamp(2.5rem, 5vh, 4rem);
+    padding-bottom: var(--space-2xl);
+  }
+
+  /* Side by side now, so the grid track is the constraint — drop the clamp the
+     stacked band needs, or the scene shrinks back to 560px inside a 622px
+     column and gives away the bleed we just bought. */
+  .heroVisual {
+    width: auto;
+    margin-inline: 0;
+  }
+
+  /* .hero is no longer centred in the viewport, so translateX(-50%) — which
+     centres these on their positioned ancestor — would drag the full-bleed
+     band right along with the bleed and leave a gap down the left edge. */
+  .heroField,
+  .heroScrim {
+    transform: translateX(calc(-50% - var(--bleed) / 2));
+  }
+}
+
+.heroVisual {
+  position: relative;
+  z-index: 1;
+}
+
+/* The bots' exchange as plain text, for every viewport that doesn't render the
+   scene. The dialogue is messaging, not decoration, so it can't be canvas-only. */
+.heroDialogue {
+  position: relative;
+  z-index: 1;
+  margin-top: var(--space-lg);
+  padding-left: var(--space-md);
+  border-left: 2px solid var(--color-border-strong);
+  color: var(--color-muted-foreground);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.heroDialogue b {
+  display: block;
+  color: var(--color-foreground);
+  font-weight: 400;
 }
 
 .hero h1 {
   font-family: var(--font-display), var(--font-sans);
-  font-size: clamp(2.375rem, 5vw, 3.5rem);
+  /* Capped lower than the old 3.5rem: the copy column is ~505px now, and the
+     headline holding three tight lines balances the bots better than two
+     sprawling ones did. */
+  font-size: clamp(2.375rem, 5vw, 3.25rem);
   line-height: 1.08;
   letter-spacing: 0;
   font-weight: 400;

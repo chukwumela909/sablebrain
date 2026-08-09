@@ -1,5 +1,5 @@
 import type * as T from "three";
-import type { Stage } from "./bot-stage";
+import type { Rig } from "./bot-stage";
 
 export type MotionSettings = {
   /** Vertical breathing, in model units. */
@@ -38,6 +38,41 @@ export const HERO_MOTION: MotionSettings = {
   ringSpin: 0.35,
   autoGestures: true,
 };
+
+/**
+ * The conversing pair. Deliberately asymmetric — two identical bots read as a
+ * mirrored rendering artifact rather than two characters.
+ *
+ * `sway` is much lower than HERO_MOTION's 0.35: the ambient yaw swing there is
+ * wider than the stage's toe-in, so at hero defaults each bot would regularly
+ * swing past its partner and end up facing away. Cursor tracking is nearly off
+ * for the same reason — both bots craning at the mouse in unison stops them
+ * looking at each other, which is the whole effect.
+ */
+export const PAIR_MOTION: [MotionSettings, MotionSettings] = [
+  {
+    breathe: 0.02,
+    sway: 0.16,
+    drift: 0.09,
+    pointer: 0.08,
+    headTrack: 0.3,
+    armSway: 0.3,
+    antenna: 0.22,
+    ringSpin: 0.35,
+    autoGestures: true,
+  },
+  {
+    breathe: 0.024,
+    sway: 0.13,
+    drift: 0.11,
+    pointer: 0.08,
+    headTrack: 0.26,
+    armSway: 0.38,
+    antenna: 0.18,
+    ringSpin: 0.28,
+    autoGestures: true,
+  },
+];
 
 export type GestureGroup = "Eyes" | "Body" | "Arms" | "Signal" | "System";
 
@@ -113,20 +148,46 @@ const holdEnvelope = (p: number, attack = 0.18, release = 0.28) =>
       ? easeInOut((1 - p) / release)
       : 1;
 
-export function createMotion(stage: Stage, initial: MotionSettings) {
-  const { THREE } = stage;
+/**
+ * Shared turn-taking lock. Two independent idle schedulers will otherwise
+ * periodically fire the same big gesture on both bots at the same instant.
+ */
+export type GestureFloor = { holder: string | null; until: number };
+
+export type MotionOptions = {
+  /**
+   * Milliseconds added to the ambient clock. Every ambient value is a pure
+   * function of `t`, so without an offset two bots breathe and sway in
+   * bit-identical lockstep — which reads as a rendering glitch, not as two
+   * characters. Gesture timing deliberately stays on the raw clock.
+   */
+  phase?: number;
+  /** Shared floor so big gestures take turns. Blinks stay unlocked. */
+  floor?: GestureFloor;
+};
+
+/** Gestures that look wrong when both bots do them at once. */
+const NEEDS_FLOOR = new Set<GestureGroup>(["Body", "Arms"]);
+
+export function createMotion(
+  rig: Rig,
+  initial: MotionSettings,
+  opts: MotionOptions = {},
+) {
+  const { THREE } = rig;
+  const { phase = 0, floor } = opts;
   let settings = { ...initial };
 
-  const head = stage.bot.getObjectByName("head_rig") as T.Object3D;
-  const joint = (name: string) => stage.bot.getObjectByName(name) as T.Object3D;
+  const head = rig.bot.getObjectByName("head_rig") as T.Object3D;
+  const joint = (name: string) => rig.bot.getObjectByName(name) as T.Object3D;
   const shoulder = { left: joint("shoulder_rig_left"), right: joint("shoulder_rig_right") };
   const elbow = { left: joint("elbow_rig_left"), right: joint("elbow_rig_right") };
   const limbs = [shoulder.left, shoulder.right, elbow.left, elbow.right];
-  const eyes = [stage.part("eye_left"), stage.part("eye_right")];
-  const core = stage.part("chest_core");
-  const bulb = stage.part("antenna_bulb");
-  const rod = stage.part("antenna_rod");
-  const ring = stage.part("base_ring");
+  const eyes = [rig.part("eye_left"), rig.part("eye_right")];
+  const core = rig.part("chest_core");
+  const bulb = rig.part("antenna_bulb");
+  const rod = rig.part("antenna_rod");
+  const ring = rig.part("base_ring");
 
   // Every glowing part shares one material in bot-model, so a blink would also
   // dim the chest core and base ring. Clone before animating anything emissive.
@@ -235,14 +296,14 @@ export function createMotion(stage: Stage, initial: MotionSettings) {
         // The head does the work; the body gives back a little for weight.
         const dip = Math.sin(p * Math.PI * 4) * 0.26 * (1 - p);
         head.rotation.x += dip;
-        stage.pivot.rotation.x -= dip * 0.22;
+        rig.pivot.rotation.x -= dip * 0.22;
         break;
       }
 
       case "shake": {
         const turn = Math.sin(p * Math.PI * 6) * 0.34 * (1 - p);
         head.rotation.y += turn;
-        stage.pivot.rotation.y -= turn * 0.18;
+        rig.pivot.rotation.y -= turn * 0.18;
         break;
       }
 
@@ -255,27 +316,27 @@ export function createMotion(stage: Stage, initial: MotionSettings) {
 
       case "leanIn": {
         const k = holdEnvelope(p, 0.3, 0.4);
-        stage.pivot.rotation.x += k * 0.15;
+        rig.pivot.rotation.x += k * 0.15;
         // Head stays level as the body leans — that's what reads as interest
         // rather than toppling.
         head.rotation.x -= k * 0.1;
-        stage.bot.scale.setScalar(1 + k * 0.05);
+        rig.bot.scale.setScalar(1 + k * 0.05);
         break;
       }
 
       case "hop": {
         const lift = hump(Math.min(p / 0.55, 1));
         const land = p > 0.55 ? hump((p - 0.55) / 0.45) : 0;
-        stage.pivot.position.y += lift * 0.09;
-        stage.bot.scale.y = 1 - land * 0.09 + lift * 0.03;
-        stage.bot.scale.x = 1 + land * 0.05;
-        stage.bot.scale.z = 1 + land * 0.05;
+        rig.pivot.position.y += lift * 0.09;
+        rig.bot.scale.y = 1 - land * 0.09 + lift * 0.03;
+        rig.bot.scale.x = 1 + land * 0.05;
+        rig.bot.scale.z = 1 + land * 0.05;
         break;
       }
 
       case "spin":
         // Eased full turn — ends exactly where it started.
-        stage.pivot.rotation.y += easeInOut(p) * Math.PI * 2;
+        rig.pivot.rotation.y += easeInOut(p) * Math.PI * 2;
         break;
 
       case "wave": {
@@ -296,7 +357,7 @@ export function createMotion(stage: Stage, initial: MotionSettings) {
         elbow.right.rotation.z += k * 0.24;
         // Head sinks between the shoulders.
         head.rotation.x += k * 0.07;
-        stage.pivot.position.y -= k * 0.014;
+        rig.pivot.position.y -= k * 0.014;
         break;
       }
 
@@ -344,15 +405,15 @@ export function createMotion(stage: Stage, initial: MotionSettings) {
         setGlow(glowMats, EMISSIVE_BASE + k * 0.9);
         rod.scale.y = 1 + k * 0.45;
         bulb.position.y = rest.bulb.y + k * 0.03;
-        stage.pivot.position.y += k * 0.012;
+        rig.pivot.position.y += k * 0.012;
         break;
       }
 
       case "glitch": {
         const j = 1 - p;
-        stage.pivot.position.x += Math.sin(t * 0.9) * 0.012 * j;
-        stage.pivot.position.y += Math.sin(t * 1.4) * 0.008 * j;
-        stage.pivot.rotation.z += Math.sin(t * 1.1) * 0.05 * j;
+        rig.pivot.position.x += Math.sin(t * 0.9) * 0.012 * j;
+        rig.pivot.position.y += Math.sin(t * 1.4) * 0.008 * j;
+        rig.pivot.rotation.z += Math.sin(t * 1.1) * 0.05 * j;
         setGlow(glowMats, EMISSIVE_BASE + (Math.sin(t * 0.6) > 0 ? 0.9 : -0.45) * j);
         break;
       }
@@ -367,8 +428,8 @@ export function createMotion(stage: Stage, initial: MotionSettings) {
         setGlow(eyeMats, EMISSIVE_BASE * stage_(0.42, 0.7));
         bulbMat.emissiveIntensity = EMISSIVE_BASE * stage_(0.6, 0.9);
         closeEyes(1 - stage_(0.42, 0.7));
-        stage.pivot.position.y += (k - 1) * 0.08;
-        stage.bot.scale.y = 0.9 + k * 0.1;
+        rig.pivot.position.y += (k - 1) * 0.08;
+        rig.bot.scale.y = 0.9 + k * 0.1;
         break;
       }
 
@@ -381,8 +442,8 @@ export function createMotion(stage: Stage, initial: MotionSettings) {
         coreMat.emissiveIntensity = EMISSIVE_BASE * off(0.35, 0.7);
         ringMat.emissiveIntensity = EMISSIVE_BASE * off(0.55, 0.9);
         closeEyes(easeInOut(clamp01((p - 0.15) / 0.35)));
-        stage.pivot.position.y -= k * 0.06;
-        stage.bot.scale.y = 1 - k * 0.08;
+        rig.pivot.position.y -= k * 0.06;
+        rig.bot.scale.y = 1 - k * 0.08;
         break;
       }
     }
@@ -432,31 +493,36 @@ export function createMotion(stage: Stage, initial: MotionSettings) {
       bulb.scale.setScalar(1);
       bulb.position.copy(rest.bulb);
       rod.scale.y = 1;
-      stage.bot.scale.set(1, 1, 1);
-      stage.pivot.position.x = 0;
+      rig.bot.scale.set(1, 1, 1);
+      rig.pivot.position.x = 0;
 
       eased.x += (aim.x - eased.x) * 0.045;
       eased.y += (aim.y - eased.y) * 0.045;
 
-      stage.pivot.rotation.y =
-        Math.sin(t * 0.00016) * settings.sway +
-        drift(t, 1) * settings.drift +
+      // Ambient motion runs on the phased clock so two bots don't move in
+      // lockstep; gestures below stay on the raw clock so fire() timing is
+      // unaffected.
+      const a = t + phase;
+
+      rig.pivot.rotation.y =
+        Math.sin(a * 0.00016) * settings.sway +
+        drift(a, 1) * settings.drift +
         eased.x * settings.pointer;
-      stage.pivot.rotation.x =
-        eased.y * settings.pointer * 0.29 + drift(t, 1.6) * settings.drift * 0.2;
+      rig.pivot.rotation.x =
+        eased.y * settings.pointer * 0.29 + drift(a, 1.6) * settings.drift * 0.2;
       // Weight shift rides with drift, so HERO_MOTION stays exactly what the
       // hero rendered before this system existed.
-      stage.pivot.rotation.z = Math.sin(t * 0.00043) * settings.drift * 0.35;
-      stage.pivot.position.y = Math.sin(t * 0.0011) * settings.breathe;
+      rig.pivot.rotation.z = Math.sin(a * 0.00043) * settings.drift * 0.35;
+      rig.pivot.position.y = Math.sin(a * 0.0011) * settings.breathe;
 
       // The head leads the body toward the cursor — the lag is what sells it.
       head.rotation.y = eased.x * settings.headTrack;
       head.rotation.x = eased.y * settings.headTrack * 0.5;
 
       // Arms trail the body's turn — secondary motion you feel more than see.
-      armLag += (stage.pivot.rotation.y - armLag) * 0.06;
-      const trail = (stage.pivot.rotation.y - armLag) * settings.armSway;
-      const idleSwing = Math.sin(t * 0.0011) * 0.03 * settings.armSway;
+      armLag += (rig.pivot.rotation.y - armLag) * 0.06;
+      const trail = (rig.pivot.rotation.y - armLag) * settings.armSway;
+      const idleSwing = Math.sin(a * 0.0011) * 0.03 * settings.armSway;
       shoulder.left.rotation.x = -trail * 1.6;
       shoulder.right.rotation.x = -trail * 1.6;
       shoulder.left.rotation.z = -idleSwing;
@@ -464,21 +530,36 @@ export function createMotion(stage: Stage, initial: MotionSettings) {
 
       if (settings.antenna > 0) {
         bulbMat.emissiveIntensity =
-          EMISSIVE_BASE + Math.sin(t * 0.002) * settings.antenna;
+          EMISSIVE_BASE + Math.sin(a * 0.002) * settings.antenna;
       }
       if (settings.ringSpin > 0) {
-        ring.rotation.y = t * 0.0004 * settings.ringSpin;
+        ring.rotation.y = a * 0.0004 * settings.ringSpin;
       }
 
       if (active) {
         const p = (t - active.start) / GESTURES[active.name].ms;
-        if (p >= 1) active = null;
-        else applyGesture(active.name, p, t);
+        if (p >= 1) {
+          if (floor?.holder === rig.id) floor.holder = null;
+          active = null;
+        } else applyGesture(active.name, p, t);
       } else if (settings.autoGestures) {
-        if (nextAt === 0) nextAt = t + 1200;
+        // Randomised so a pair doesn't fire its first gesture on the same frame.
+        if (nextAt === 0) nextAt = t + 800 + Math.random() * 1600;
         else if (t >= nextAt) {
-          active = { name: pickGesture(), start: t, dir: Math.random() < 0.5 ? -1 : 1 };
-          nextAt = t + 2500 + Math.random() * 4500;
+          const name = pickGesture();
+          const wantsFloor = NEEDS_FLOOR.has(GESTURES[name].group);
+          const busy =
+            floor && floor.holder !== null && floor.holder !== rig.id && t < floor.until;
+          if (wantsFloor && busy) {
+            nextAt = t + 600; // the other bot is mid-gesture — try again shortly
+          } else {
+            if (wantsFloor && floor) {
+              floor.holder = rig.id;
+              floor.until = t + GESTURES[name].ms;
+            }
+            active = { name, start: t, dir: Math.random() < 0.5 ? -1 : 1 };
+            nextAt = t + 2500 + Math.random() * 4500;
+          }
         }
       } else {
         nextAt = 0;

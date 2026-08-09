@@ -68,7 +68,7 @@ export default function BotLab() {
       if (disposed) return;
 
       const stage = createStage(THREE, host);
-      const motion = createMotion(stage, LIVELY);
+      const motion = createMotion(stage.rigs[0], LIVELY);
       motionRef.current = motion;
       motion.update(0);
       stage.render();

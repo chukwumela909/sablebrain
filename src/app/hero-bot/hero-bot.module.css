@@ -1,19 +1,41 @@
-.stage {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 4 / 5;
-  max-height: 540px;
+.wrap {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
 }
 
-/* Grounds the bot on the dark hero without paying for a shadow map. */
-.stage::before {
+.scene {
+  position: relative;
+  width: 100%;
+  /* Landscape, because two bots side by side in a portrait box is the worst
+     fit — but not 16/9. createStage's camera is vertically bound at these
+     proportions (halfH / tanV wins in frame()), so canvas HEIGHT is what sets
+     how many pixels a bot gets. 16/9 was starving them. */
+  aspect-ratio: 7 / 5;
+  max-height: 480px;
+}
+
+.stage {
+  position: absolute;
+  inset: 0;
+}
+
+.stage canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* One glow per bot — a single centred ellipse would belong to neither.
+   Sits mostly below the canvas edge so its bright centre lands at the bots'
+   feet (~3% up from the bottom, i.e. the framing `pad`), not at their knees. */
+.scene::before,
+.scene::after {
   content: "";
   position: absolute;
-  left: 50%;
-  bottom: 8%;
-  width: 78%;
-  height: 34%;
-  transform: translateX(-50%);
+  bottom: -6%;
+  width: 30%;
+  height: 18%;
   border-radius: 50%;
   background: radial-gradient(
     ellipse at center,
@@ -25,10 +47,79 @@
   pointer-events: none;
 }
 
-.stage canvas {
+.scene::before {
+  left: 8%;
+}
+
+.scene::after {
+  right: 8%;
+}
+
+/* ---------- Speech bubbles ---------- */
+
+.bubbles {
   position: absolute;
   inset: 0;
-  display: block;
-  width: 100%;
-  height: 100%;
+  pointer-events: none;
+}
+
+.bubble {
+  position: absolute;
+  top: 0;
+  left: 0;
+  /* Was 34% of the scene — which made a bubble wider than the whole pair of
+     bots, so the label out-shouted the thing it labelled. */
+  max-width: min(15rem, 42%);
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  background: rgba(8, 17, 32, 0.92);
+  border: 1px solid var(--color-border-strong);
+  backdrop-filter: blur(8px);
+  font-size: 0.9375rem;
+  line-height: 1.35;
+  color: var(--color-foreground);
+  /* JS writes --bx/--by in px (the projected head position); the second
+     translate is the anchor offset in percentages of the bubble's OWN size,
+     which also pushes each bubble outward so the pair can't collide.
+     It must live here rather than in a margin: percentage margins resolve
+     against the container's width, so margin-top: -100% would be minus the
+     container width, not minus the bubble height. */
+  transform: translate3d(var(--bx, 0px), var(--by, 0px), 0)
+    translate(var(--ax, -50%), -100%);
+  opacity: 0;
+  transition: opacity 220ms ease;
+  will-change: transform;
+}
+
+.bubble[data-visible="true"] {
+  opacity: 1;
+}
+
+/* The outward push is what keeps the pair from colliding, but at the larger bot
+   scale -78%/-22% left a bubble hovering over empty canvas beside its bot
+   instead of over its head. These still clear each other by ~40px. */
+.bubbleLeft {
+  --ax: -65%;
+}
+
+.bubbleRight {
+  --ax: -35%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bubble {
+    transition: none;
+  }
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import FilamentField from "./filament-field";
 import HeroBot from "./hero-bot/hero-bot";
 import styles from "./page.module.css";
 import ScrollReveal from "./scroll-reveal";
@@ -90,6 +91,10 @@ export default function Home() {
       <main className={styles.page} id="top">
         {/* 1. Hero */}
         <section className={styles.hero}>
+          <div className={styles.heroField} aria-hidden="true">
+            <FilamentField />
+          </div>
+          <div className={styles.heroScrim} aria-hidden="true" />
           <div className={styles.heroCopy} data-reveal>
             <p className={styles.eyebrow}>AI operations agency</p>
             <h1>
@@ -108,6 +113,11 @@ export default function Home() {
                 See our work
               </a>
             </div>
+            <p className={styles.heroDialogue}>
+              <b>&ldquo;Someone still does invoice approvals by hand.&rdquo;</b>
+              <b>&ldquo;We map it, build it, and it runs itself.&rdquo;</b>
+              <b>&ldquo;And the six hours?&rdquo; &mdash; &ldquo;Handed back.&rdquo;</b>
+            </p>
           </div>
           <div
             className={styles.heroVisual}

@@ -51,6 +51,10 @@ export function buildBot(THREE: ThreeModule): ThreeTypes.Group {
 
   const bot = new THREE.Group();
   bot.name = "bot_agent";
+  // bot-motion clones and replaces the glow material on five meshes, after
+  // which nothing in the scene graph references the originals — a traversal
+  // can't find them to dispose. Keep a handle so teardown can.
+  bot.userData.baseMaterials = Object.values(M);
 
   const add = (
     name: string,

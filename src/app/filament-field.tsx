@@ -4,8 +4,8 @@ import { useEffect, useRef } from "react";
 
 /**
  * Concept 1 — "tangle → parallel lines". A knot of filaments that combs itself
- * out into ordered streams and back again. Coded baseline to judge generated
- * footage against.
+ * out into ordered streams and back again: the problem statement and the
+ * solution in one loop.
  */
 export default function FilamentField({ className }: { className?: string }) {
   const ref = useRef<HTMLCanvasElement>(null);
@@ -69,9 +69,12 @@ export default function FilamentField({ className }: { className?: string }) {
     };
 
     resize();
+    // Draw immediately. If the page loads in a background tab the loop below
+    // never starts, and the band would simply be missing until it's focused.
+    draw(CYCLE * 0.62);
     const observer = new ResizeObserver(() => {
       resize();
-      if (reduced) draw(CYCLE * 0.62);
+      draw(CYCLE * 0.62);
     });
     observer.observe(canvas);
 
@@ -81,16 +84,37 @@ export default function FilamentField({ className }: { className?: string }) {
       return () => observer.disconnect();
     }
 
+    // Same discipline as the bot: no frames while scrolled away or backgrounded.
     let raf = 0;
+    let onScreen = true;
     const loop = (t: number) => {
       draw(t);
       raf = requestAnimationFrame(loop);
     };
-    raf = requestAnimationFrame(loop);
+    const sync = () => {
+      const run = onScreen && !document.hidden;
+      if (run && !raf) raf = requestAnimationFrame(loop);
+      if (!run && raf) {
+        cancelAnimationFrame(raf);
+        raf = 0;
+      }
+    };
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        onScreen = entry.isIntersecting;
+        sync();
+      },
+      { threshold: 0 },
+    );
+    io.observe(canvas);
+    document.addEventListener("visibilitychange", sync);
+    sync();
 
     return () => {
-      cancelAnimationFrame(raf);
+      if (raf) cancelAnimationFrame(raf);
+      io.disconnect();
       observer.disconnect();
+      document.removeEventListener("visibilitychange", sync);
     };
   }, []);
 

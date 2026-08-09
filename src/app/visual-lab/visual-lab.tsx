@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import HeroBot from "../hero-bot/hero-bot";
 import page from "../page.module.css";
-import FilamentField from "./filament-field";
+import FilamentField from "../filament-field";
 import HoursGrid from "./hours-grid";
 import styles from "./visual-lab.module.css";
 
