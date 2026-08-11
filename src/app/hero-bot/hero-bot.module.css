@@ -8,10 +8,13 @@
   position: relative;
   width: 100%;
   /* Landscape, because two bots side by side in a portrait box is the worst
-     fit — but not 16/9. createStage's camera is vertically bound at these
-     proportions (halfH / tanV wins in frame()), so canvas HEIGHT is what sets
-     how many pixels a bot gets. 16/9 was starving them. */
-  aspect-ratio: 7 / 5;
+     fit — but only just. createStage's camera is vertically bound at these
+     proportions (halfH / tanV wins in frame()), so canvas HEIGHT alone sets how
+     many pixels a bot gets; width past what the pair occupies is dead space.
+     5/4 buys back the height a narrower column would otherwise cost, which is
+     why the bleed could be capped at 120px without the bots shrinking. Going
+     much squarer flips the binding term to horizontal and they do shrink. */
+  aspect-ratio: 5 / 4;
   max-height: 480px;
 }
 

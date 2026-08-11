@@ -7,7 +7,12 @@
   display: flex;
   align-items: center;
   gap: var(--space-lg);
-  padding: 14px clamp(1.25rem, 5vw, 4rem);
+  /* The bar itself stays full-bleed (background + border run edge to edge) but
+     its contents sit on .page's spine, so the wordmark lines up with the h1 and
+     every heading below it. Once .page's 1120px max-width binds, its content
+     edge is at 50vw - 496px; below that the shared clamp is still the wider of
+     the two and wins. */
+  padding: 14px max(clamp(1.25rem, 5vw, 4rem), calc(50vw - 496px));
   background: rgba(8, 17, 32, 0.82);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
@@ -187,9 +192,11 @@
 @media (min-width: 1280px) {
   .hero {
     /* Content edge of .page sits at 50vw + 496px; this is the distance from
-       there to 2rem short of the viewport, capped so the scene doesn't drift
-       into its own postcode on an ultrawide. */
-    --bleed: min(240px, max(0px, calc(50vw - 528px)));
+       there to 2rem short of the viewport. Capped at 120px, not the ~430px a
+       wide screen offers: past that the bots visibly break the right margin
+       every other section keeps, and the hero reads as shoved into the corner.
+       The cap costs nothing in bot size — see .scene's aspect ratio. */
+    --bleed: min(120px, max(0px, calc(50vw - 528px)));
     width: calc(100% + var(--bleed));
     grid-template-columns: minmax(0, 1fr) minmax(0, calc(430px + var(--bleed)));
     /* Slack around the row rather than under it: the old fixed padding left a
