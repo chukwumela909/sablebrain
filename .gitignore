@@ -40,6 +40,3 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-
-# Coolvetica — desktop EULA only, web embedding not licensed. Local experiment; never commit.
-src/app/fonts/Coolvetica*

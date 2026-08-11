@@ -22,8 +22,8 @@ import styles from "./type-lab.module.css";
 
 const tanNimbus = localFont({ src: "../fonts/TAN-NIMBUS.woff2" });
 
-// Coolvetica: desktop EULA only — files are git-ignored and must never be
-// committed or deployed. Local trial ahead of a Typodermic web license.
+// Coolvetica: desktop EULA only — no web-embedding grant yet. See the note in
+// layout.tsx; a Typodermic web license is still outstanding.
 const coolveticaRg = localFont({ src: "../fonts/CoolveticaRg.otf" });
 const coolveticaHv = localFont({ src: "../fonts/CoolveticaHvComp.otf" });
 
@@ -207,7 +207,7 @@ const groups: Group[] = [
   },
   {
     title: "Round four — the real Coolvetica",
-    note: "The actual files from your download, loaded locally. The bundled free EULA covers desktop use only and expressly disallows web embedding, so these files are git-ignored — this stays a local trial until a web license is bought from Typodermic.",
+    note: "The actual files from your download. The bundled free EULA covers desktop use only and does not grant web embedding, so a web license from Typodermic is still outstanding.",
     showWordmark: true,
     options: [
       {

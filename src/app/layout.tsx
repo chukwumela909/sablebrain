@@ -10,9 +10,9 @@ const inter = Inter({
   display: "swap",
 });
 
-// Coolvetica Rg — the wordmark's own face. LICENSE GATE: the bundled free
-// EULA is desktop-only; the file is git-ignored and this must not deploy
-// until a Typodermic web-embedding license is purchased.
+// Coolvetica Rg — the wordmark's own face. LICENSE DEBT: the bundled free EULA
+// covers desktop use only and does not grant web embedding. Shipped anyway
+// while the site is early; buy a Typodermic web license before it matters.
 const coolvetica = localFont({
   src: "./fonts/CoolveticaRg.otf",
   variable: "--font-display",
