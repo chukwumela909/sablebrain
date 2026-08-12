@@ -8,7 +8,7 @@ import {
   type Motion,
 } from "./bot-motion";
 import { createStage, type Rig } from "./bot-stage";
-import { dwellFor, runConversation, type Turn } from "./conversation";
+import { dwellFor, prefetchExchange, runConversation, type Turn } from "./conversation";
 import styles from "./hero-bot.module.css";
 
 // Keep in sync with the `.heroVisual` breakpoint in page.module.css — below
@@ -206,18 +206,17 @@ export default function HeroBot() {
     };
   }, [isDesktop]);
 
-  // They start talking on their own — there's nothing to ask them.
+  // They start talking on their own — there's nothing to ask them. The first
+  // request goes out at mount so a generated exchange is queued by the time
+  // the local opener finishes; the opener itself needs no network and lands
+  // on the beat, while the bots are still finishing their boot-up.
   useEffect(() => {
     if (!isDesktop) return;
-    let cancelled = false;
-    const id = window.setTimeout(async () => {
-      const turns = await runConversation();
-      if (!cancelled) setPlayback({ turns, index: 0 });
+    prefetchExchange();
+    const id = window.setTimeout(() => {
+      setPlayback({ turns: runConversation(), index: 0 });
     }, 2200);
-    return () => {
-      cancelled = true;
-      window.clearTimeout(id);
-    };
+    return () => window.clearTimeout(id);
   }, [isDesktop]);
 
   // Play the current turn, then schedule the next.
@@ -235,15 +234,12 @@ export default function HeroBot() {
     // On the last line, hold it a beat and then start a fresh exchange — with
     // no input to trigger one, stopping here would freeze the hero mid-scene.
     if (index >= turns.length - 1) {
-      let cancelled = false;
-      const restart = window.setTimeout(async () => {
-        const next = await runConversation();
-        if (!cancelled) setPlayback({ turns: next, index: 0 });
+      const restart = window.setTimeout(() => {
+        // Takes the queued exchange and immediately starts fetching its
+        // replacement, so the next one is ready a whole exchange early.
+        setPlayback({ turns: runConversation(), index: 0 });
       }, dwellFor(turn.text) + 2800);
-      return () => {
-        cancelled = true;
-        window.clearTimeout(restart);
-      };
+      return () => window.clearTimeout(restart);
     }
 
     const id = window.setTimeout(() => {

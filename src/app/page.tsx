@@ -101,9 +101,10 @@ export default function Home() {
               AI workflows that automate <em>the boring work.</em>
             </h1>
             <p className={styles.lede}>
-              Sable Brain builds AI systems that take repetitive tasks off your
-              team&apos;s plate — inside the tools you already use — so your
-              people can do the work that actually needs them.
+              Your team loses hours every week to copy, paste, check, forward. We
+              build AI systems that handle that work inside the tools you
+              already use, so your people can get back to the work only they can
+              do.
             </p>
             <div className={styles.heroActions}>
               <a href="#contact" className={styles.btnPrimary}>

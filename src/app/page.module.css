@@ -136,7 +136,12 @@
   height: 100%;
 }
 
-/* Keeps the headline off the busiest part of the band. */
+/* Knocks the band back behind the copy without erasing it. The previous stops
+   hit full opacity by 6% and full transparency by 78%, which wiped the texture
+   off the left half entirely — so even with the hero box measuring symmetric
+   margins, all the visual weight sat on the right and the page read as shoved
+   over. Now it never reaches opaque and falls off across the whole width, so
+   the band reads edge to edge and the two halves carry comparable weight. */
 .heroScrim {
   position: absolute;
   left: 50%;
@@ -148,9 +153,10 @@
   pointer-events: none;
   background: linear-gradient(
     100deg,
-    var(--color-background) 6%,
-    rgba(8, 17, 32, 0.62) 42%,
-    rgba(8, 17, 32, 0) 78%
+    rgba(8, 17, 32, 0.55) 0%,
+    rgba(8, 17, 32, 0.38) 40%,
+    rgba(8, 17, 32, 0.14) 70%,
+    rgba(8, 17, 32, 0) 100%
   );
 }
 
@@ -183,22 +189,15 @@
   }
 }
 
-/* ≥1280: the hero used to break out of .page's shell on BOTH sides, which put
-   the h1 ~190px left of every heading below it — the page appeared to jump
-   right on the first scroll. Now the copy keeps the page's left spine and only
-   the scene reaches out, into the right gutter the 1120px shell was wasting.
-   Because the bleed is added to the visual track alone, the copy column stays
-   ~505px at every width and only the bots get bigger on wide screens. */
+/* ≥1280: two columns, both inside .page's shell. The hero used to break out —
+   first on both sides (which put the h1 ~190px left of every heading below it),
+   then on the right only (which left the hero box itself off-centre: 224px of
+   margin on one side, 104px on the other). It now measures exactly like every
+   other section, so the whole page shares one centre line and one left spine.
+   The scene still gets the room it needs — see .heroVisual below. */
 @media (min-width: 1280px) {
   .hero {
-    /* Content edge of .page sits at 50vw + 496px; this is the distance from
-       there to 2rem short of the viewport. Capped at 120px, not the ~430px a
-       wide screen offers: past that the bots visibly break the right margin
-       every other section keeps, and the hero reads as shoved into the corner.
-       The cap costs nothing in bot size — see .scene's aspect ratio. */
-    --bleed: min(120px, max(0px, calc(50vw - 528px)));
-    width: calc(100% + var(--bleed));
-    grid-template-columns: minmax(0, 1fr) minmax(0, calc(430px + var(--bleed)));
+    grid-template-columns: minmax(0, 1fr) minmax(0, 430px);
     /* Slack around the row rather than under it: the old fixed padding left a
        ~215px dead band between the buttons and the next section. */
     min-height: min(80vh, 800px);
@@ -207,20 +206,16 @@
     padding-bottom: var(--space-2xl);
   }
 
-  /* Side by side now, so the grid track is the constraint — drop the clamp the
-     stacked band needs, or the scene shrinks back to 560px inside a 622px
-     column and gives away the bleed we just bought. */
+  /* Deliberately wider than its 430px column, centred on it and overflowing
+     ~60px each side. createStage needs ~1.22x the canvas height in width or the
+     camera's binding term flips to horizontal and the bots shrink — but the
+     pair only paints ~423px of that canvas, so the overhang is transparent.
+     The result: bots at full size, their visible mass landing inside the page's
+     right margin, and a hero box that stays symmetric in the viewport. */
   .heroVisual {
-    width: auto;
+    width: 550px;
+    justify-self: center;
     margin-inline: 0;
-  }
-
-  /* .hero is no longer centred in the viewport, so translateX(-50%) — which
-     centres these on their positioned ancestor — would drag the full-bleed
-     band right along with the bleed and leave a gap down the left edge. */
-  .heroField,
-  .heroScrim {
-    transform: translateX(calc(-50% - var(--bleed) / 2));
   }
 }
 
