@@ -1,0 +1,74 @@
+.article {
+  max-width: 720px;
+  padding: var(--space-3xl) 0;
+}
+
+.title {
+  font-family: var(--font-display), var(--font-sans);
+  font-size: clamp(2.25rem, 5vw, 3.5rem);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+}
+
+.updated {
+  margin-top: var(--space-sm);
+  color: var(--color-muted-foreground);
+  font-size: 0.875rem;
+}
+
+.lede {
+  margin-top: var(--space-lg);
+  font-size: 1.125rem;
+  line-height: 1.6;
+  color: var(--color-foreground);
+}
+
+.section {
+  margin-top: var(--space-xl);
+  padding-top: var(--space-lg);
+  border-top: 1px solid var(--color-border);
+}
+
+.section h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: var(--space-sm);
+}
+
+.section p,
+.section li {
+  color: var(--color-muted-foreground);
+  line-height: 1.65;
+}
+
+.section ul {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  padding-left: 1.25rem;
+}
+
+.section li::marker {
+  color: var(--color-primary);
+}
+
+.section strong {
+  color: var(--color-foreground);
+  font-weight: 600;
+}
+
+.article a {
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.article a:hover {
+  opacity: 0.85;
+}
+
+.article a:focus-visible {
+  outline: 2px solid var(--color-ring);
+  outline-offset: 2px;
+}
