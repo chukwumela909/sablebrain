@@ -1,0 +1,166 @@
+/* Shared by machines.tsx and particles.tsx. Both fill the whole tile; the
+   scenes draw past their own frame, out to the tile's edges. */
+.scene,
+.canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* ───────── Machines: hairline isometric drawing ───────── */
+.svg polygon,
+.svg line,
+.svg polyline,
+.svg path,
+.svg ellipse {
+  vector-effect: non-scaling-stroke;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+.top {
+  fill: #10233b;
+  stroke: rgba(0, 229, 255, 0.55);
+  stroke-width: 1;
+}
+.sideL {
+  fill: #0a1729;
+  stroke: rgba(0, 229, 255, 0.32);
+  stroke-width: 1;
+}
+.sideR {
+  fill: #0d1e33;
+  stroke: rgba(0, 229, 255, 0.4);
+  stroke-width: 1;
+}
+.cyan .top {
+  fill: var(--cyan);
+  stroke: var(--cyan);
+}
+.cyan .sideL {
+  fill: #009fb3;
+  stroke: #009fb3;
+}
+.cyan .sideR {
+  fill: #00c2d8;
+  stroke: #00c2d8;
+}
+.cream .top {
+  fill: var(--cream);
+  stroke: var(--cream);
+}
+.cream .sideL {
+  fill: #a9b8c8;
+  stroke: #a9b8c8;
+}
+.cream .sideR {
+  fill: #cdd8e3;
+  stroke: #cdd8e3;
+}
+.paper .top {
+  fill: rgba(244, 248, 252, 0.05);
+  stroke: rgba(244, 248, 252, 0.42);
+}
+.paper .sideL,
+.paper .sideR {
+  fill: rgba(244, 248, 252, 0.08);
+  stroke: rgba(244, 248, 252, 0.3);
+}
+
+.grid {
+  stroke: rgba(0, 229, 255, 0.16);
+  stroke-width: 1;
+  stroke-dasharray: 1 6;
+}
+.wire {
+  stroke: rgba(0, 229, 255, 0.55);
+  stroke-width: 1;
+  fill: none;
+}
+.wireSoft {
+  stroke: rgba(0, 229, 255, 0.4);
+  stroke-width: 1;
+}
+.wireBright {
+  stroke: var(--cyan);
+  stroke-width: 1.2;
+}
+.wireDash {
+  stroke: rgba(0, 229, 255, 0.5);
+  stroke-width: 1;
+  stroke-dasharray: 2 3;
+}
+.stripe {
+  stroke: rgba(0, 229, 255, 0.22);
+  stroke-width: 1;
+}
+.cable {
+  stroke: rgba(0, 229, 255, 0.35);
+  stroke-width: 1;
+  stroke-dasharray: 3 3;
+}
+.ink {
+  stroke: rgba(244, 248, 252, 0.32);
+  stroke-width: 1.4;
+}
+.field {
+  fill: rgba(0, 229, 255, 0.28);
+  stroke: rgba(0, 229, 255, 0.7);
+  stroke-width: 1;
+}
+.slot {
+  fill: none;
+  stroke: rgba(0, 229, 255, 0.35);
+  stroke-width: 1;
+  stroke-dasharray: 2 3;
+}
+.scan {
+  fill: var(--cyan);
+  stroke: none;
+}
+.scanCream {
+  fill: var(--cream);
+  stroke: none;
+}
+.scanEdge {
+  stroke: var(--cyan);
+  stroke-width: 1.5;
+}
+.beam {
+  stroke: var(--cyan);
+  stroke-width: 1.2;
+}
+.ring {
+  fill: none;
+  stroke: var(--cyan);
+  stroke-width: 1;
+}
+.check {
+  fill: none;
+  stroke: var(--cyan);
+  stroke-width: 2;
+}
+.label {
+  fill: var(--mute-dark);
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 1.2px;
+}
+
+/* The plant runs on past the frame; it fades out toward the edges. */
+.plant {
+  -webkit-mask-image: radial-gradient(ellipse 74% 80% at 50% 50%, #000 56%, transparent 100%);
+  mask-image: radial-gradient(ellipse 74% 80% at 50% 50%, #000 56%, transparent 100%);
+}
+/* Station numbers painted on the floor. */
+.floorText {
+  fill: var(--cyan);
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: 2px;
+}

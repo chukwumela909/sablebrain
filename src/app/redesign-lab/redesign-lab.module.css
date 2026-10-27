@@ -1,0 +1,1803 @@
+/* Tokens lifted from the pen.dev file's pp-* variables (node dsolx). */
+.root {
+  --night: #081120;
+  --night-2: #12233c;
+  --night-line: #1e3a5f;
+  --cyan: #00e5ff;
+  --cream: #f4f8fc;
+  --mute-dark: #93a9c4;
+  --paper: #f1f5fa;
+  --ink: #081120;
+  --mute-light: #4a5d78;
+  --line-light: #d3dde9;
+
+  --serif: var(--rl-serif), Georgia, serif;
+  --sans: var(--rl-sans), system-ui, sans-serif;
+  --mono: var(--rl-mono), ui-monospace, monospace;
+
+  background: var(--night);
+  color: var(--cream);
+  font-family: var(--sans);
+  overflow-x: clip;
+  /* pen.dev renders Newsreader at one fixed optical size; 24 reproduces its
+     measure (the headline's first line: 593px here, 589px in the design).
+     Geist has no opsz axis and ignores this. */
+  font-optical-sizing: none;
+  font-variation-settings: "opsz" 24;
+}
+
+.inner {
+  width: min(1148px, 100% - 64px);
+  margin-inline: auto;
+}
+
+.section {
+  padding-block: 140px;
+}
+
+.cyan {
+  color: var(--cyan);
+}
+
+.eyebrow,
+.eyebrowDark,
+.index {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 1.4px;
+  color: var(--cyan);
+}
+.eyebrowDark {
+  color: var(--ink);
+}
+.eyebrow,
+.eyebrowDark {
+  display: block;
+  line-height: 16px;
+}
+.index {
+  line-height: 16px;
+}
+.index {
+  color: var(--mute-dark);
+  letter-spacing: 1.5px;
+}
+
+.h2 {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(38px, 4.2vw, 56px);
+  line-height: 59px;
+  letter-spacing: -1.6px;
+  margin-top: 24px;
+}
+
+/* ───────── Buttons ───────── */
+.btnRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.btnLight,
+.btnCyan,
+.btnGlass,
+.btnCyanLg,
+.btnCyanXl,
+.btnDarkXl {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 999px;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 19px;
+  white-space: nowrap;
+  transition:
+    transform 200ms ease,
+    background-color 200ms ease;
+}
+.btnLight {
+  background: var(--cream);
+  color: var(--night);
+  padding: 10px 18px;
+}
+.btnCyan,
+.btnCyanLg,
+.btnCyanXl {
+  background: var(--cyan);
+  color: var(--night);
+  padding: 12px 20px;
+}
+.btnCyanLg {
+  padding: 14px 22px;
+}
+.btnCyanXl,
+.btnDarkXl {
+  padding: 15px 24px;
+}
+.btnGlass {
+  padding: 12px 20px;
+  color: var(--cream);
+  background: rgba(244, 248, 252, 0.08);
+  outline: 1px solid rgba(244, 248, 252, 0.12);
+  outline-offset: -1px;
+  backdrop-filter: blur(6px);
+}
+.btnGlass:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 2px;
+}
+.btnDarkXl {
+  color: var(--cream);
+  background: rgba(255, 255, 255, 0.08);
+}
+@media (hover: hover) and (pointer: fine) {
+  .btnLight:hover,
+  .btnCyan:hover,
+  .btnGlass:hover,
+  .btnCyanLg:hover,
+  .btnCyanXl:hover,
+  .btnDarkXl:hover {
+    transform: translateY(-1px);
+  }
+}
+
+/* ───────── Hero ─────────
+   One screen tall, after paypath.ai: the headline and aside sit 64px off
+   the bottom with their bottoms aligned, and the tabs/card stack take
+   whatever height is left above them. */
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  isolation: isolate;
+}
+.heroImage {
+  object-fit: cover;
+  z-index: -2;
+}
+.heroShade {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(
+    180deg,
+    rgba(8, 17, 32, 0.6) 0%,
+    rgba(8, 17, 32, 0) 30%,
+    rgba(8, 17, 32, 0.2) 60%,
+    rgba(8, 17, 32, 0.7) 84%,
+    var(--night) 100%
+  );
+}
+
+.nav {
+  border-bottom: 1px solid rgba(244, 248, 252, 0.12);
+}
+.navInner {
+  width: min(1148px, 100% - 64px);
+  margin-inline: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-block: 22px;
+}
+.navLinks {
+  display: flex;
+  gap: 40px;
+  font-size: 14px;
+  color: rgba(244, 248, 252, 0.8);
+}
+.navLinks a:hover {
+  color: var(--cream);
+}
+.navActions {
+  width: 220px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Middle of the hero, after paypath.ai: a full-bleed 1px line with four
+   stops, and the tabs + card stack centred over it. The line runs through
+   the front card 32px below its top. */
+.heroCenter {
+  position: relative;
+  flex: 1;
+  min-height: 360px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+}
+.lineFill {
+  position: absolute;
+  inset: 0;
+  background: var(--cyan);
+  transform-origin: left;
+  animation: lineFill linear both;
+}
+@keyframes lineFill {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+.stop {
+  position: absolute;
+  top: -2px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  transform: translateX(-50%);
+  font-family: var(--sans);
+  font-size: 13px;
+  line-height: 18.2px;
+  letter-spacing: -0.26px;
+  color: #fff;
+  white-space: nowrap;
+}
+.stop:nth-of-type(1) {
+  left: 7%;
+}
+.stop:nth-of-type(2) {
+  left: 22%;
+}
+.stop:nth-of-type(3) {
+  left: 78%;
+}
+.stop:nth-of-type(4) {
+  left: 93%;
+}
+.stopDot {
+  width: 5px;
+  height: 5px;
+  border-radius: 5px;
+  background: var(--cyan);
+}
+
+.heroWidget {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding-bottom: 12px;
+}
+
+.tabs {
+  display: flex;
+  gap: 8px;
+}
+.tab {
+  height: 24px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 90px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 19.6px;
+  letter-spacing: -0.14px;
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  transition:
+    background-color 300ms ease,
+    color 300ms ease;
+}
+.tab:hover {
+  color: #fff;
+}
+.tabActive,
+.tabActive:hover {
+  background: #fff;
+  color: #000;
+}
+
+/* Four cards share one grid cell, so the stack takes the widest card's
+   width. Front to back: 1 / .94 / .88 / .82 scale, 16px steps down,
+   fading to nothing. The card leaving the front grows and lifts away. */
+.heroStack {
+  display: grid;
+  min-width: 360px;
+  padding-bottom: 32px;
+  animation: stackIn 500ms ease both;
+}
+@keyframes stackIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+.statusCard {
+  grid-area: 1 / 1;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow:
+    0 1px 16px rgba(0, 0, 0, 0.04),
+    0 1px 2px rgba(0, 0, 0, 0.08),
+    0 0 0 0.5px rgba(0, 0, 0, 0.04),
+    0 4px 24px rgba(0, 0, 0, 0.04);
+  white-space: nowrap;
+  transform-origin: top center;
+  transition:
+    transform 900ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 900ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.statusCard[data-pos="0"] {
+  z-index: 4;
+}
+.statusCard[data-pos="1"] {
+  z-index: 3;
+  opacity: 0.65;
+  transform: translateY(16px) scale(0.94);
+}
+.statusCard[data-pos="2"] {
+  z-index: 2;
+  opacity: 0.3;
+  transform: translateY(32px) scale(0.88);
+}
+.statusCard[data-pos="3"] {
+  z-index: 1;
+  opacity: 0;
+  transform: translateY(48px) scale(0.82);
+}
+.statusCard[data-exit] {
+  z-index: 5;
+  animation: cardExit 900ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+@keyframes cardExit {
+  from {
+    opacity: 1;
+    transform: none;
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-16px) scale(1.06);
+  }
+}
+.statusIcon {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: var(--cyan);
+  color: var(--night);
+}
+.statusText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  margin-right: auto;
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 19.5px;
+  letter-spacing: -0.3px;
+}
+.statusText strong,
+.statusText span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.statusText strong {
+  font-weight: 400;
+  color: #000;
+}
+.statusText span {
+  color: rgba(0, 0, 0, 0.5);
+}
+.chip {
+  flex-shrink: 0;
+  padding: 4px 8px;
+  border-radius: 900px;
+  background: rgba(0, 0, 0, 0.08);
+  font-family: var(--sans);
+  font-size: 12px;
+  line-height: 13.2px;
+  color: #000;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lineFill {
+    animation: none;
+  }
+  .heroStack,
+  .statusCard[data-exit] {
+    animation: none;
+  }
+  .statusCard {
+    transition: none;
+  }
+}
+
+.heroBottom {
+  width: min(1148px, 100% - 64px);
+  margin-inline: auto;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  padding-bottom: 64px;
+}
+.heroHeadline {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(48px, 5vw, 72px);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  flex-shrink: 0;
+}
+.heroAside {
+  width: 520px;
+  flex-shrink: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.heroAside p {
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--mute-dark);
+}
+
+/* ───────── Problem ───────── */
+.problem {
+  padding-bottom: 160px;
+}
+.eyebrowRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--night-line);
+}
+.statement {
+  margin-top: 72px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+  text-align: center;
+  font-family: var(--serif);
+  font-size: clamp(34px, 3.6vw, 52px);
+  line-height: 58px;
+  letter-spacing: -1.4px;
+}
+.statement p {
+  max-width: 900px;
+}
+.statement mark {
+  background: var(--cyan);
+  color: var(--night);
+  border-radius: 4px;
+  padding: 2px 14px 6px;
+}
+
+/* ───────── What we build ───────── */
+.build {
+  padding-top: 40px;
+  padding-bottom: 160px;
+}
+.buildHeader {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 32px;
+  padding-bottom: 48px;
+  border-bottom: 1px solid var(--night-line);
+}
+.buildHeader > div {
+  max-width: 720px;
+}
+.servicesBody {
+  margin-top: 72px;
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 72px;
+  align-items: start;
+}
+.serviceMenu {
+  list-style: none;
+}
+.serviceMenu li + li {
+  border-top: 1px solid var(--night-line);
+}
+.serviceMenu button {
+  width: 100%;
+  text-align: left;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  padding: 20px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.menuRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.menuMarker {
+  width: 8px;
+  height: 8px;
+  background: var(--cyan);
+}
+.menuIndex {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 1.2px;
+  color: var(--mute-dark);
+  width: 16px;
+}
+.menuTitle {
+  font-size: 16px;
+  line-height: 21px;
+  color: rgba(244, 248, 252, 0.6);
+}
+.menuActive .menuTitle,
+.serviceMenu button:hover .menuTitle {
+  color: var(--cream);
+}
+.menuActive .menuTitle {
+  font-weight: 500;
+}
+.menuDesc {
+  font-size: 14px;
+  line-height: 21px;
+  color: var(--mute-dark);
+}
+
+.serviceGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 56px 28px;
+}
+/* The pin wrapper only takes part in layout when pinned. */
+.servicesPin {
+  display: contents;
+}
+
+/* Pinned (desktop, motion allowed; see Services): the body is a scroll
+   track four screens tall, and its sticky panel holds the menu beside one
+   large tile. The outgoing tile lifts away as the next one rises in. */
+.servicesBody[data-pinned] {
+  display: block;
+  height: 400vh;
+}
+.servicesBody[data-pinned] .servicesPin {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 72px;
+  align-items: center;
+}
+.servicesBody[data-pinned] .serviceGrid {
+  grid-template-columns: 1fr;
+}
+.servicesBody[data-pinned] .tile {
+  grid-area: 1 / 1;
+  transition:
+    opacity 600ms cubic-bezier(0.16, 1, 0.3, 1),
+    translate 600ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.servicesBody[data-pinned] .tile[data-pos="-1"],
+.servicesBody[data-pinned] .tile[data-pos="1"] {
+  opacity: 0;
+  pointer-events: none;
+}
+.servicesBody[data-pinned] .tile[data-pos="-1"] {
+  translate: 0 -32px;
+}
+.servicesBody[data-pinned] .tile[data-pos="1"] {
+  translate: 0 32px;
+}
+.servicesBody[data-pinned] .tileVisual {
+  height: min(56vh, 480px);
+}
+.servicesBody[data-pinned] .mock {
+  scale: 1.3;
+}
+/* Machines, pinned: one plant stays put above the tiles, which keep only
+   their text and change beneath it. */
+.servicesBody[data-pinned] .serviceGrid[data-plant] {
+  row-gap: 22px;
+}
+.servicesBody[data-pinned] .serviceGrid[data-plant] .tile {
+  grid-area: 2 / 1;
+}
+.plantFrame {
+  --glow: 50% 40%;
+}
+/* Floating switch between illustration styles (Services). */
+.lookSwitch {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 5px 5px 14px;
+  border-radius: 999px;
+  background: rgba(8, 17, 32, 0.82);
+  outline: 1px solid rgba(244, 248, 252, 0.14);
+  outline-offset: -1px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, 16px);
+  transition:
+    opacity 400ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 400ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.lookSwitch[data-on] {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, 0);
+}
+.lookSwitch > span {
+  margin-right: 6px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--mute-dark);
+}
+.lookSwitch button {
+  height: 30px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  font-family: var(--sans);
+  font-size: 13px;
+  color: rgba(244, 248, 252, 0.7);
+  cursor: pointer;
+  transition:
+    background-color 250ms ease,
+    color 250ms ease;
+}
+.lookSwitch button:hover {
+  color: var(--cream);
+}
+.lookSwitch button[aria-checked="true"] {
+  background: var(--cream);
+  color: var(--night);
+}
+
+/* How far through the active service the scroll is, drawn over the
+   divider below the active item so the divider itself fills. */
+.serviceMenu li {
+  position: relative;
+}
+.menuProgress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  z-index: 1;
+  height: 1px;
+}
+.menuProgress::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--cyan);
+  transform-origin: left;
+  transform: scaleX(var(--local, 0));
+}
+.tile {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+/* The glow sits on its own layer so it can drift; --glow places it per
+   tile. */
+.tileVisual {
+  position: relative;
+  height: 300px;
+  background-color: var(--night-2);
+  overflow: hidden;
+  isolation: isolate;
+  display: grid;
+  place-items: center;
+}
+.tileVisual::before {
+  content: "";
+  position: absolute;
+  inset: -15%;
+  z-index: -1;
+  background: radial-gradient(
+    ellipse 70% 70% at var(--glow, 50% 50%),
+    #1a5a8a 0%,
+    #12305a 45%,
+    rgba(18, 35, 60, 0) 100%
+  );
+}
+.tileText h3 {
+  line-height: 26px;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: -0.3px;
+}
+.tileNum {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--cyan);
+}
+.tileText p {
+  margin-top: 10px;
+  font-size: 16px;
+  line-height: 25px;
+  color: var(--mute-dark);
+}
+
+.mock {
+  width: 276px;
+  padding: 16px;
+  border-radius: 14px;
+  background: rgba(14, 26, 46, 0.7);
+  outline: 1px solid rgba(244, 248, 252, 0.12);
+  outline-offset: -1px;
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.45);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.mockHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.mockHeadLeft {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 500;
+}
+.mono10 {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.6px;
+  color: var(--mute-dark);
+}
+.mockDivider {
+  height: 1px;
+  background: rgba(244, 248, 252, 0.08);
+}
+.mockDivider span {
+  display: block;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(0, 229, 255, 0.2), var(--cyan));
+  transform-origin: left;
+  transition: transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.mockStep {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  color: var(--mute-dark);
+}
+.mockStepFlag {
+  color: var(--cream);
+}
+.badge {
+  margin-left: auto;
+  padding: 3px 7px;
+  border-radius: 999px;
+  background: var(--cream);
+  color: var(--night);
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.6px;
+}
+/* Invoice run (InvoiceMock): a rail joins the four stations, the invoice
+   square rides it, and the stations take a check as it passes. Positions
+   and colours come from the run's progress inline; these are the shapes. */
+.invoiceSteps {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.invoiceSteps .mockStep {
+  height: 18px;
+}
+.rail {
+  position: absolute;
+  left: 8.5px;
+  top: 9px;
+  width: 1px;
+  height: 90px;
+  background: rgba(244, 248, 252, 0.08);
+}
+.rail span {
+  display: block;
+  width: 1px;
+  background: linear-gradient(180deg, rgba(0, 229, 255, 0.25), rgba(0, 229, 255, 0.7));
+}
+.invoiceToken {
+  position: absolute;
+  left: 6px;
+  top: 0;
+  z-index: 2;
+  width: 6px;
+  height: 6px;
+  background: var(--cyan);
+  transform-origin: center;
+}
+.station {
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  background: #18263b;
+  color: var(--cyan);
+}
+.station[data-done] {
+  background: #123447;
+}
+.flagBody {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transform-origin: left center;
+}
+.runCounter {
+  display: inline-flex;
+  align-items: flex-start;
+  line-height: 1.2em;
+  white-space: pre;
+  font-variant-numeric: tabular-nums;
+}
+.rollDigit {
+  height: 1.2em;
+  overflow: hidden;
+}
+.rollDigit > span {
+  display: block;
+}
+
+/* The travelling cyan square every card shares, and the other cards'
+   rails: tools run down the live dots, extraction's caret runs beside the
+   values. */
+.token {
+  position: absolute;
+  top: 0;
+  z-index: 2;
+  width: 6px;
+  height: 6px;
+  background: var(--cyan);
+  transform-origin: center;
+}
+.toolRows,
+.fieldRows {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.toolRows .mockTool {
+  height: 24px;
+}
+.toolRail {
+  position: absolute;
+  right: 2.5px;
+  top: 12px;
+  width: 1px;
+  height: 108px;
+  background: rgba(244, 248, 252, 0.08);
+}
+.toolRail span {
+  display: block;
+  width: 1px;
+  background: linear-gradient(180deg, rgba(0, 229, 255, 0.25), rgba(0, 229, 255, 0.7));
+}
+.toolToken {
+  right: 0;
+}
+.toolRows .liveDot {
+  position: relative;
+  z-index: 1;
+}
+.syncLabel {
+  height: 1.2em;
+  line-height: 1.2em;
+  overflow: hidden;
+  text-align: right;
+}
+.syncLabel > span {
+  display: block;
+}
+.fieldRows .mockField {
+  height: 22px;
+}
+.caretToken {
+  right: -11px;
+}
+.fieldBlank {
+  width: 72px;
+  height: 21px;
+  border-radius: 4px;
+  background: rgba(244, 248, 252, 0.06);
+}
+
+.mockTool {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.appTile {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  background: rgba(244, 248, 252, 0.08);
+}
+.toolName {
+  flex: 1;
+  font-size: 12px;
+}
+.liveDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--cyan);
+}
+.mockField {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.fieldValue {
+  padding: 3px 7px;
+  border-radius: 4px;
+  background: rgba(0, 229, 255, 0.1);
+  color: var(--cyan);
+  font-size: 12px;
+}
+/* Assistant (AssistantMock): opacity and position come from the run's
+   progress inline. */
+.requestRow {
+  display: flex;
+  justify-content: flex-end;
+}
+.typing {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 10px 12px;
+  border-radius: 4px 12px 12px 12px;
+  background: rgba(0, 229, 255, 0.12);
+}
+.typing i {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--cyan);
+}
+.word {
+  display: inline-block;
+  white-space: pre;
+}
+.request {
+  padding: 8px 12px;
+  border-radius: 12px 12px 4px 12px;
+  background: rgba(244, 248, 252, 0.1);
+  font-size: 12px;
+}
+.replyRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  min-height: 50px;
+}
+.avatar {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  background: var(--cyan);
+  color: var(--night);
+}
+.reply {
+  padding: 8px 12px;
+  border-radius: 4px 12px 12px 12px;
+  background: rgba(0, 229, 255, 0.12);
+  outline: 1px solid rgba(0, 229, 255, 0.2);
+  outline-offset: -1px;
+  font-size: 12px;
+  line-height: 17px;
+}
+
+/* ───────── Quote ───────── */
+.quoteSection {
+  padding-bottom: 140px;
+}
+.progressRule {
+  height: 1px;
+  background: var(--night-line);
+}
+.progressRule span {
+  display: block;
+  width: 320px;
+  height: 1px;
+  background: var(--cyan);
+}
+.quote {
+  margin: 110px auto 0;
+  text-align: center;
+  font-family: var(--serif);
+  font-size: clamp(32px, 3.6vw, 52px);
+  line-height: 58px;
+  letter-spacing: -1.4px;
+}
+.quote mark {
+  background: var(--cyan);
+  color: var(--night);
+  padding: 0 4px;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+.attribution {
+  margin-top: 110px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  text-align: center;
+}
+.attribution strong {
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 19px;
+}
+.attribution > span:not(.mark):not(.dots) {
+  font-size: 14px;
+  line-height: 18px;
+  color: var(--mute-dark);
+}
+.mark {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 22px;
+  background: var(--night-2);
+  outline: 1px solid var(--night-line);
+  outline-offset: -1px;
+  color: var(--cyan);
+}
+.dots {
+  display: flex;
+  gap: 8px;
+  padding-top: 18px;
+}
+.dots i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #33517c;
+}
+.dots .dotOn {
+  background: var(--cream);
+}
+
+/* ───────── Light sections ───────── */
+.light {
+  background: var(--paper);
+  color: var(--ink);
+}
+.splitHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 68px;
+}
+.splitLeft {
+  max-width: 640px;
+}
+.splitRight {
+  width: 440px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 28px;
+}
+.intro {
+  font-size: 18px;
+  line-height: 28px;
+  color: var(--mute-light);
+}
+.howLeft {
+  width: 544px;
+}
+.howIntro {
+  width: 544px;
+  padding-bottom: 36px;
+}
+.monoCaps {
+  display: block;
+  line-height: 15px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--mute-light);
+}
+
+.caseTable {
+  margin-top: 64px;
+}
+.caseRow {
+  display: grid;
+  grid-template-columns: 360px 1fr 260px;
+  gap: 40px;
+  padding: 32px 0;
+  border-top: 1px solid var(--line-light);
+}
+.caseRow:last-child {
+  border-bottom: 1px solid var(--line-light);
+}
+.caseClient {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  align-self: start;
+}
+.caseClient strong {
+  display: block;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 23px;
+  margin-bottom: 4px;
+}
+.caseWork {
+  font-family: var(--serif);
+  font-size: 28px;
+  line-height: 34px;
+  letter-spacing: -0.5px;
+}
+.caseResult {
+  padding-top: 6px;
+}
+.caseResult p {
+  margin-top: 8px;
+  line-height: 25px;
+  font-size: 16px;
+  line-height: 25px;
+}
+
+.showcase {
+  margin-top: 64px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+.showTile {
+  height: 560px;
+  padding: 120px 48px 44px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #050b16;
+  background-image: radial-gradient(
+    ellipse 80% 65% at 25% 95%,
+    rgba(10, 143, 179, 0.8) 0%,
+    rgba(18, 48, 90, 0.53) 40%,
+    rgba(5, 11, 22, 0) 100%
+  );
+  color: var(--cream);
+}
+.cardStack {
+  position: relative;
+  width: min(420px, 100%);
+  height: 122px;
+}
+.stackCard {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  border-radius: 16px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.33);
+  color: var(--ink);
+}
+.stackBack {
+  top: 0;
+  left: 20px;
+  right: 20px;
+  background: rgba(255, 255, 255, 0.4);
+  opacity: 0.7;
+}
+.stackFront {
+  top: 54px;
+  left: 0;
+  right: 0;
+  background: rgba(255, 255, 255, 0.93);
+}
+.stackIcon {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: var(--night);
+  color: var(--cream);
+  flex-shrink: 0;
+}
+.stackTitle {
+  flex: 1;
+  font-size: 16px;
+  line-height: 21px;
+}
+.stackChip {
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(8, 17, 32, 0.08);
+  font-size: 13px;
+}
+.caption {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+}
+.caption h3 {
+  font-size: 18px;
+  font-weight: 400;
+}
+.caption p {
+  max-width: 440px;
+  font-size: 16px;
+  line-height: 25px;
+  color: var(--mute-dark);
+}
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  padding-top: 8px;
+}
+.tags span {
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  outline: 1px solid rgba(255, 255, 255, 0.12);
+  outline-offset: -1px;
+  font-size: 14px;
+}
+
+.how {
+  padding-top: 40px;
+}
+.how .splitHeader {
+  justify-content: flex-start;
+  gap: 60px;
+}
+.steps {
+  margin-top: 72px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+}
+.stepTrack {
+  height: 2px;
+  background: var(--line-light);
+}
+.stepTrack span {
+  display: block;
+  height: 2px;
+}
+.stepTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 56px;
+  padding: 12px 0 24px;
+  margin-top: 20px;
+}
+.stepNum {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 1.4px;
+  color: var(--mute-light);
+}
+.step h3 {
+  margin-top: 20px;
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 28px;
+  line-height: 34px;
+  letter-spacing: -0.5px;
+}
+.step p {
+  margin-top: 20px;
+  font-size: 16px;
+  line-height: 25px;
+  color: var(--mute-light);
+}
+
+.partners {
+  padding-top: 60px;
+  padding-bottom: 160px;
+}
+.partnersInner {
+  display: grid;
+  grid-template-columns: 1fr 534px;
+  gap: 80px;
+}
+.partnersLeft {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 28px;
+}
+.limeTag {
+  display: inline-block;
+  padding: 5px 9px;
+  background: var(--cyan);
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 1.4px;
+}
+.partnersLeft .h2 {
+  max-width: 534px;
+  margin-top: 0;
+}
+.partnersList {
+  padding-top: 24px;
+}
+.partner {
+  padding: 24px 0;
+  border-bottom: 1px solid var(--line-light);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.partner h3 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 23px;
+}
+.partner p {
+  font-size: 16px;
+  line-height: 25px;
+  color: var(--mute-light);
+}
+.contactNote {
+  font-size: 16px;
+  line-height: 25px;
+}
+
+/* ───────── CTA ───────── */
+.cta {
+  padding-block: 200px;
+  background-color: var(--night);
+  background-image: radial-gradient(
+    ellipse 60% 70% at 85% 90%,
+    rgba(11, 127, 160, 0.6) 0%,
+    rgba(18, 48, 90, 0.27) 45%,
+    rgba(8, 17, 32, 0) 100%
+  );
+}
+.ctaHeadline {
+  margin-top: 40px;
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(52px, 6.1vw, 88px);
+  line-height: 1;
+  letter-spacing: -3px;
+}
+.cta .btnRow {
+  padding-top: 8px;
+}
+.ctaBody {
+  margin: 40px 0;
+  max-width: 520px;
+  font-size: 18px;
+  line-height: 28px;
+  color: var(--mute-dark);
+}
+
+/* ───────── Footer ───────── */
+.footer {
+  border-top: 1px solid var(--night-line);
+  padding-top: 80px;
+  overflow: hidden;
+}
+.footerTop {
+  display: flex;
+  justify-content: space-between;
+  gap: 48px;
+}
+.brand {
+  width: min(440px, 100%);
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+.brand p {
+  max-width: 440px;
+  font-family: var(--serif);
+  font-size: 30px;
+  line-height: 36px;
+  letter-spacing: -0.6px;
+}
+.footerCols {
+  display: flex;
+  gap: 96px;
+}
+.colTitle {
+  display: block;
+  line-height: 15px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 1.2px;
+  color: var(--mute-dark);
+}
+.footerCols ul {
+  list-style: none;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 15px;
+  line-height: 19px;
+}
+.footerTop {
+  align-items: flex-start;
+}
+.footerCols a:hover,
+.legalLinks a:hover {
+  color: var(--cyan);
+}
+.legal {
+  line-height: 17px;
+  margin-top: 72px;
+  display: flex;
+  justify-content: space-between;
+  padding: 24px 0;
+  border-top: 1px solid var(--night-line);
+  font-size: 13px;
+  color: var(--mute-dark);
+}
+.legalLinks {
+  display: flex;
+  gap: 24px;
+}
+/* As in the design: the name starts 14px left of the frame (at 300px), so
+   the 220px box crops it slightly at both sides and at its foot. */
+.giant {
+  margin-top: 72px;
+  /* 220px at 1440, scaling with the word: the baseline sits on the box's
+     bottom edge and the fade spans the visible box, as in the design. */
+  height: 0.7334em;
+  overflow: hidden;
+  text-align: left;
+  text-indent: -0.0467em;
+  font-family: var(--serif);
+  font-size: min(300px, calc((100vw - 64px) / 3.9));
+  line-height: 1;
+  letter-spacing: -0.04em;
+  white-space: nowrap;
+  /* pen.dev's "0deg" runs top to bottom (CSS 180deg): brightest at the top,
+     fading over the full 1em letter box, of which the 220px box shows the top. */
+  background: linear-gradient(180deg, rgba(0, 229, 255, 0.2) 0%, rgba(0, 229, 255, 0) 85%);
+  background-size: 100% 1em;
+  background-repeat: no-repeat;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ───────── Responsive (the design is drawn at 1440; these keep it whole
+   on smaller screens) ───────── */
+@media (max-width: 1100px) {
+  .navLinks {
+    display: none;
+  }
+  .navActions {
+    width: auto;
+  }
+  .heroBottom,
+  .splitHeader,
+  .buildHeader,
+  .footerTop {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .heroHeadline {
+    width: auto;
+  }
+  .heroAside,
+  .splitRight,
+  .howLeft,
+  .howIntro {
+    width: 100%;
+    max-width: 520px;
+    padding-bottom: 0;
+  }
+  .servicesBody,
+  .partnersInner {
+    grid-template-columns: 1fr;
+  }
+  .serviceMenu {
+    display: none;
+  }
+  .caseRow {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
+@media (max-width: 720px) {
+  .inner,
+  .navInner,
+  .heroBottom {
+    width: calc(100% - 32px);
+  }
+  .section {
+    padding-block: 96px;
+  }
+  .hero {
+    min-height: min(100svh, 900px);
+  }
+  .heroCenter {
+    min-height: 320px;
+    padding-inline: 16px;
+  }
+  .line {
+    display: none;
+  }
+  .heroWidget {
+    width: 100%;
+  }
+  .heroStack {
+    min-width: 0;
+    width: 100%;
+    max-width: 400px;
+  }
+  .heroHeadline,
+  .ctaHeadline {
+    letter-spacing: -1.6px;
+  }
+  .heroHeadline br,
+  .ctaHeadline br,
+  .quote br {
+    display: none;
+  }
+  .statement,
+  .quote {
+    line-height: 1.12;
+  }
+  .serviceGrid,
+  .showcase,
+  .steps {
+    grid-template-columns: 1fr;
+  }
+  .showTile {
+    height: auto;
+    gap: 64px;
+    padding: 72px 20px 36px;
+  }
+  .footerCols {
+    flex-wrap: wrap;
+    gap: 40px;
+  }
+  .legal {
+    flex-direction: column;
+    gap: 12px;
+  }
+  .cta {
+    padding-block: 120px;
+  }
+}
+
+/* ───────── Motion ─────────
+   Everything below the hero fades up as it scrolls in: data-reveal is the
+   hidden state, data-shown (set by the page's observer) the resting one,
+   and --i staggers siblings by 80ms. Each section adds one small detail on
+   top. Nothing here runs under reduced motion. */
+@media (prefers-reduced-motion: no-preference) {
+  .root {
+    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .root[data-motion] [data-reveal] {
+    opacity: 0;
+    transform: translateY(24px);
+    transition:
+      opacity 800ms var(--ease-out),
+      transform 800ms var(--ease-out);
+    transition-delay: calc(var(--i, 0) * 80ms);
+  }
+  .root[data-motion] [data-reveal][data-shown] {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Highlights sweep in left to right once their block has arrived. */
+  .root[data-motion] .statement mark,
+  .root[data-motion] .quote mark {
+    background: linear-gradient(var(--cyan), var(--cyan)) no-repeat left / 0% 100%;
+    color: inherit;
+    transition:
+      background-size 1000ms var(--ease-out) 500ms,
+      color 400ms ease 750ms;
+  }
+  .root[data-motion] [data-shown] mark {
+    background-size: 100% 100%;
+    color: var(--night);
+  }
+
+  /* Service mockups: rows tick in one after another. */
+  .root[data-motion] .mock > * {
+    opacity: 0;
+    transform: translateX(-6px);
+    transition:
+      opacity 600ms var(--ease-out),
+      transform 600ms var(--ease-out);
+  }
+  .root[data-motion] [data-shown] .mock > * {
+    opacity: 1;
+    transform: none;
+  }
+  .root[data-motion] [data-shown] .mock > :nth-child(1),
+  .root[data-motion] [data-shown] .mock > :nth-child(2) {
+    transition-delay: calc(var(--i, 0) * 80ms + 250ms);
+  }
+  .root[data-motion] [data-shown] .mock > :nth-child(3) {
+    transition-delay: calc(var(--i, 0) * 80ms + 400ms);
+  }
+  .root[data-motion] [data-shown] .mock > :nth-child(4) {
+    transition-delay: calc(var(--i, 0) * 80ms + 520ms);
+  }
+  .root[data-motion] [data-shown] .mock > :nth-child(5) {
+    transition-delay: calc(var(--i, 0) * 80ms + 640ms);
+  }
+  .root[data-motion] [data-shown] .mock > :nth-child(6) {
+    transition-delay: calc(var(--i, 0) * 80ms + 760ms);
+  }
+  .root[data-motion] [data-pinned] .mock > * {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Progress rules fill from the left. */
+  .root[data-motion] .progressRule span,
+  .root[data-motion] .stepTrack span {
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 1400ms var(--ease-out);
+    transition-delay: calc(var(--i, 0) * 120ms + 300ms);
+  }
+  .root[data-motion] [data-shown] .progressRule span,
+  .root[data-motion] .progressRule[data-shown] span,
+  .root[data-motion] [data-shown] .stepTrack span {
+    transform: none;
+  }
+
+  /* Proof stacks: the back card lands, then the front one, and the pair
+     keeps a slow drift, the two tiles out of step. */
+  .root[data-motion] .stackCard {
+    opacity: 0;
+    translate: 0 14px;
+    transition:
+      opacity 700ms var(--ease-out),
+      translate 700ms var(--ease-out);
+  }
+  .root[data-motion] .stackBack {
+    transition-delay: calc(var(--i, 0) * 80ms + 250ms);
+  }
+  .root[data-motion] .stackFront {
+    transition-delay: calc(var(--i, 0) * 80ms + 420ms);
+  }
+  .root[data-motion] [data-shown] .stackCard {
+    translate: none;
+  }
+  .root[data-motion] [data-shown] .stackBack {
+    opacity: 0.7;
+  }
+  .root[data-motion] [data-shown] .stackFront {
+    opacity: 1;
+  }
+  .cardStack {
+    animation: drift 7s ease-in-out infinite;
+    animation-delay: calc(var(--i, 0) * -3.5s);
+  }
+  @keyframes drift {
+    50% {
+      transform: translateY(-5px);
+    }
+  }
+
+  /* Tile glows wander slowly, each on its own clock. */
+  .tileVisual::before {
+    animation: glowDrift 18s ease-in-out infinite alternate;
+    animation-delay: calc(var(--i, 0) * -6s);
+  }
+  .tile:nth-child(3) .tileVisual::before,
+  .tile:nth-child(4) .tileVisual::before {
+    animation-duration: 22s;
+  }
+  @keyframes glowDrift {
+    from {
+      transform: translate(-4%, -3%) scale(1);
+    }
+    to {
+      transform: translate(5%, 4%) scale(1.08);
+    }
+  }
+
+  /* Footer wordmark rises a little further and slower than the rest. */
+  .root[data-motion] .giant[data-reveal]:not([data-shown]) {
+    transform: translateY(48px);
+  }
+  .root[data-motion] .giant[data-reveal] {
+    transition-duration: 1600ms;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .tileVisual {
+      transition: transform 500ms var(--ease-out);
+    }
+    .tile:hover .tileVisual {
+      transform: translateY(-3px);
+    }
+  }
+}
