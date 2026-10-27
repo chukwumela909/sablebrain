@@ -1,0 +1,122 @@
+/* Breaks out of .page's max-width to run edge to edge, the same trick the old
+   filament band used. inset: 0 means it covers the hero's padding too, so the
+   ridges run up under the sticky nav instead of starting at the h1. */
+.backdrop {
+  position: absolute;
+  inset: 0;
+  left: 50%;
+  z-index: 0;
+  width: 100vw;
+  transform: translateX(-50%);
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.blur,
+.hills {
+  object-fit: cover;
+  object-position: 50% 55%;
+  /* The source is wider than the hero, so cover binds on width and
+     object-position can't move the trail sideways. Scaling up and sliding right
+     does: the bright bend lands under the bots instead of behind the lede. */
+  transform: translateX(7%) scale(1.14);
+  transform-origin: 50% 55%;
+}
+
+.hills {
+  animation: hills-in 1400ms ease-out both;
+}
+
+/* Wider than the viewport so its soft edge never shows. Centred on the trail's
+   bright bend, which sits a little above the hero's vertical middle. */
+.glow {
+  position: absolute;
+  top: 18%;
+  left: 50%;
+  width: 180%;
+  height: auto;
+  transform: translateX(-50%);
+  mix-blend-mode: screen;
+  opacity: 0.5;
+  animation: glow-breathe 9s ease-in-out infinite alternate;
+}
+
+/* Two gradients: a vertical one so the top dissolves under the nav and the
+   bottom into the page, and a diagonal one that darkens the copy column
+   without flattening the ridges on the right. */
+.scrim {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(8, 17, 32, 0.75) 0%,
+      rgba(8, 17, 32, 0.1) 26%,
+      rgba(8, 17, 32, 0) 60%,
+      rgba(8, 17, 32, 0.6) 88%,
+      var(--color-background) 100%
+    ),
+    linear-gradient(
+      100deg,
+      rgba(8, 17, 32, 0.82) 0%,
+      rgba(8, 17, 32, 0.6) 38%,
+      rgba(8, 17, 32, 0.18) 62%,
+      rgba(8, 17, 32, 0) 85%
+    );
+}
+
+/* Below 1024 there are no bots and the copy spans the full width, so there is
+   nowhere for the bend to sit beside the text. Portrait crops are height-bound
+   (object-position works again), so push the bend mostly off the right edge
+   and lay an even veil over the whole thing for the copy's sake. */
+@media (max-width: 1023px) {
+  .blur,
+  .hills {
+    transform: none;
+    object-position: 78% 55%;
+  }
+
+  .glow {
+    opacity: 0.35;
+  }
+
+  .scrim {
+    background:
+      linear-gradient(
+        to bottom,
+        rgba(8, 17, 32, 0.75) 0%,
+        rgba(8, 17, 32, 0.1) 26%,
+        rgba(8, 17, 32, 0) 60%,
+        rgba(8, 17, 32, 0.6) 88%,
+        var(--color-background) 100%
+      ),
+      rgba(8, 17, 32, 0.45);
+  }
+}
+
+@keyframes hills-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes glow-breathe {
+  from {
+    opacity: 0.4;
+    transform: translateX(-50%) scale(1);
+  }
+  to {
+    opacity: 0.62;
+    transform: translateX(-50%) scale(1.05);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hills,
+  .glow {
+    animation: none;
+  }
+}

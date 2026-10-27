@@ -1,5 +1,5 @@
 import Image from "next/image";
-import FilamentField from "./filament-field";
+import HeroBackdrop from "./hero-backdrop";
 import HeroBot from "./hero-bot/hero-bot";
 import styles from "./page.module.css";
 import ScrollReveal from "./scroll-reveal";
@@ -91,10 +91,7 @@ export default function Home() {
       <main className={styles.page} id="top">
         {/* 1. Hero */}
         <section className={styles.hero}>
-          <div className={styles.heroField} aria-hidden="true">
-            <FilamentField />
-          </div>
-          <div className={styles.heroScrim} aria-hidden="true" />
+          <HeroBackdrop />
           <div className={styles.heroCopy} data-reveal>
             <p className={styles.eyebrow}>AI operations agency</p>
             <h1>

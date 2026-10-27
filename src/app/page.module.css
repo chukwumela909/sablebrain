@@ -111,55 +111,8 @@
   align-items: center;
 }
 
-/* Tangle → flow, dialled in at /visual-lab: band placement, blend lighten,
-   62% opacity. Breaks out of .page's max-width to sit full-bleed.
-   The band is the bots' ground plane, so its height is tuned so the mask's
-   opaque edge lands just above their feet — not through their chests. */
-.heroField {
-  position: absolute;
-  left: 50%;
-  bottom: 0;
-  z-index: 0;
-  width: 100vw;
-  height: 42%;
-  transform: translateX(-50%);
-  opacity: 0.62;
-  mix-blend-mode: lighten;
-  pointer-events: none;
-  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 30%);
-  mask-image: linear-gradient(to bottom, transparent, #000 30%);
-}
-
-.heroField canvas {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-
-/* Knocks the band back behind the copy without erasing it. The previous stops
-   hit full opacity by 6% and full transparency by 78%, which wiped the texture
-   off the left half entirely — so even with the hero box measuring symmetric
-   margins, all the visual weight sat on the right and the page read as shoved
-   over. Now it never reaches opaque and falls off across the whole width, so
-   the band reads edge to edge and the two halves carry comparable weight. */
-.heroScrim {
-  position: absolute;
-  left: 50%;
-  bottom: 0;
-  z-index: 0;
-  width: 100vw;
-  height: 42%;
-  transform: translateX(-50%);
-  pointer-events: none;
-  background: linear-gradient(
-    100deg,
-    rgba(8, 17, 32, 0.55) 0%,
-    rgba(8, 17, 32, 0.38) 40%,
-    rgba(8, 17, 32, 0.14) 70%,
-    rgba(8, 17, 32, 0) 100%
-  );
-}
-
+/* The backdrop (hills + glow, see hero-backdrop.tsx) is absolute inside this
+   box and breaks out to 100vw; the copy and bots sit above it at z-index 1. */
 .heroCopy {
   position: relative;
   z-index: 1;
